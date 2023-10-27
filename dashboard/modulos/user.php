@@ -22,33 +22,45 @@ if (isset($_SESSION['corr'])) {
     }
 
     if (isset($_POST['btn_actualizar_usuario'])) {
-        $correo = $_SESSION['corr']; 
+        $correo = $_SESSION['corr'];
         $a = $_POST['apo'];
         $n1 = $_POST['nom1'];
         $a1 = $_POST['ape1'];
         $desc = $_POST['descripcion'];
 
-        if (!empty($_FILES['img']['name'])) {
-            $nombre_imagen = $_FILES['img']['name'];
-            $temp_name = $_FILES['img']['tmp_name'];
-            $image_path = "ruta_de_carga_de_imagen/" . $image_name;
+        //verificar si se sube la foto o no
+        if(!empty($_FILES['image']['name']) && $_FILES['image']['error'] === UPLOAD_ERR_OK){//LA FOTO CARGO
+            $img_name =$_FILES['image']['name']; //Conseguir que el cliente suba el nombre de la imagen
+            $tmp_name = $_FILES['image']['tmp_name']; //nombre usado para guardar la imagen en la carpeta
 
-            if (move_uploaded_file($temp_name, $image_path)) {
-                // La imagen se ha cargado exitosamente, ahora puedes actualizar la base de datos con la nueva ruta de la imagen
-                $modificar = mysqli_query($conexion, "UPDATE `usuario` SET `apod` = '$a', `nom1` = '$n1', `ape1` = '$a1', `descr` = '$desc', `img` = '$image_path' WHERE `usuario`.`correo` = '$correo';") or die ("Error en el registro: " . mysqli_error($conexion));
+            //Exportar la iamgen y agregar como ultima extencion jpg o png
+            $img_explode = explode('.', $img_name);
+            $img_ext= end($img_explode); // aqui se hara la extensio y el usuario cargara su imagen
 
-                if ($modificar) {
-                    // Actualizar las variables de sesión con los datos actualizados
-                    $_SESSION['apo'] = $a;
-                    $_SESSION['n'] = $n1;
-                    $_SESSION['a'] = $a1;
-                    $_SESSION['desc'] = $desc;
-                    $_SESSION['img'] = $image_path;
+            $extensions = ['png', 'jpeg', 'jpg']; // algunas extensiones de img abarcadas en esta raiz
+            if (in_array ($img_ext, $extensions) === true){// Si la img subida por el usuario coincide con una de las anteriores
+                $time = time();
+                $new_img_name = $time.$img_name;
+                if(move_uploaded_file($tmp_name, "../../chatnewcastle/php/images/".$new_img_name)){
+                    // La imagen se ha cargado exitosamente, ahora puedes actualizar la base de datos con la nueva ruta de la imagen
+                    $modificar = mysqli_query($conexion, "UPDATE `usuario` SET `apod` = '$a', `nom1` = '$n1', `ape1` = '$a1', `descr` = '$desc', `img` = '$new_img_name' WHERE `usuario`.`correo` = '$correo';") or die ("Error en el registro: " . mysqli_error($conexion));
+
+                    if ($modificar) {
+                        // Actualizar las variables de sesión con los datos actualizados
+                        $_SESSION['apo'] = $a;
+                        $_SESSION['n'] = $n1;
+                        $_SESSION['a'] = $a1;
+                        $_SESSION['desc'] = $desc;
+                        $_SESSION['img'] = $new_img_name;
+                    }
                 }
-            } else {
-                echo "Error al cargar la imagen.";
+            }else{
+                echo "porfavor seleccione una imagen- jpeg, jpg, png";
             }
-        } else {
+        }else{
+
+            echo "Error al cargar el archivo. Código de error: " . $_FILES['img']['error'];
+
             // No se ha subido una nueva imagen, solo actualiza los otros campos
             $modificar = mysqli_query($conexion, "UPDATE `usuario` SET `apod` = '$a', `nom1` = '$n1', `ape1` = '$a1', `descr` = '$desc' WHERE `usuario`.`correo` = '$correo';") or die ("Error en el registro: " . mysqli_error($conexion));
 
@@ -58,8 +70,6 @@ if (isset($_SESSION['corr'])) {
                 $_SESSION['n'] = $n1;
                 $_SESSION['a'] = $a1;
                 $_SESSION['desc'] = $desc;
-                
-                echo "<script>alert('Cambio exitoso');</script>";
             }
         }
     }
@@ -152,9 +162,12 @@ if (isset($_SESSION['corr'])) {
                                 </div>
                             </div>
 
-                            <button type="submit" style="margin: 5px" class="btn btn-primary pull-right" name="btn_actualizar_usuario" value="actualizar">Actualizar perfil</button> <button type="button" style="margin: 5px" class="btn btn-primary pull-right" onclick="confirmarEliminacion()">Eliminar perfil</button>
+                            <div class="field_image">
+                                <label>Seleccionar imagen</label>
+                                <input type="file" name="image">
+                            </div>
 
-                            
+                            <button type="submit" style="margin: 5px" class="btn btn-primary pull-right" name="btn_actualizar_usuario" value="actualizar">Actualizar perfil</button> <button type="button" style="margin: 5px" class="btn btn-primary pull-right" onclick="confirmarEliminacion()">Eliminar perfil</button>
 
                             <script>
                                 function confirmarEliminacion() {
@@ -191,11 +204,6 @@ if (isset($_SESSION['corr'])) {
                         <p class="description text-center">
 
                         </p>
-                        <!-- <center>
-                            <button id="btn_foto" style="margin: 5px" class="btn ">
-                                <span><strong>Cambiar foto de peril</strong></span>
-                            </button>
-                        </center> -->
                     </div>
                     <hr>
                     <div class="button-container mr-auto ml-auto">
@@ -217,30 +225,6 @@ if (isset($_SESSION['corr'])) {
 
 <div id="cuentas">
 
-</div>
-
-<input type="checkbox" id="btn_modal">
-<div class="container_modal">
-    <div class="container" id="container">
-        <header>
-            <h3>Cambiar foto de perfil</h3>
-        </header>
-        <form action="../documentation/template.php?mod=inicio" method="post">
-            <div class="field image">
-                <label>Seleccionar imagen</label>
-                <input id="inputFile" type="file" name="image" required>
-            </div>
-        </form>
-        <img src="" id="imagenSeleccionada" style="heigth: 150px; width: 150px;">
-        <div class="contenido">
-            <button id="cancelar">
-                <span><strong>Cancelar</strong></span>
-            </button>
-            <button id="btn_crear">
-                <span><strong>Cambiar</strong></span>
-            </button>
-        </div>
-    </div>
 </div>
 
 <script>

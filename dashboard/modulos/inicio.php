@@ -1,3 +1,29 @@
+<?php
+include "../../conexion.php";
+
+if (isset($_POST['btn_crear'])) {
+    $nom = $_POST['nom_proyecto'];
+    $id_us = $_SESSION['id_us'];
+    $registrar = mysqli_query($conexion, "INSERT INTO `proyecto` (`id_proyecto`, `nom`, `id_us`, `costo`, `obj`) VALUES ('', '$nom', '$id_us', '0', '')") or die (mysqli_error($conexion));
+}
+
+if (isset($_POST['btn_eliminar'])) {
+    $id_eliminar = @$_POST['nom_eliminar'];
+    
+    // Evita la inyección SQL utilizando una consulta preparada
+    $query = "DELETE FROM proyecto WHERE id_proyecto = ?";
+    $stmt = mysqli_prepare($conexion, $query);
+    mysqli_stmt_bind_param($stmt, "i", $id_eliminar);
+    
+    if (mysqli_stmt_execute($stmt)) {
+        echo "El material ha sido borrado con éxito";
+    } else {
+        echo "Error al eliminar el material";
+    }
+    mysqli_stmt_close($stmt);
+}
+?>
+
 <!-- -------------------------------------------------- CSS -------------------------------------------------- -->
 
 <style>
@@ -69,7 +95,6 @@
                     $stmt = mysqli_prepare($conexion, $query);
                     
                     if ($stmt) {
-                        $dato = '%' . $dato . '%';
                         mysqli_stmt_bind_param($stmt, "s", $dato);
                         mysqli_stmt_execute($stmt);
                         $result = mysqli_stmt_get_result($stmt);
@@ -77,49 +102,40 @@
                         if ($result && mysqli_num_rows($result) === 0) {
                             echo "No tienes ningún proyecto creado";
                         } else {
-                            while ($row = mysqli_fetch_assoc($result)) {
+                            while ($fila = mysqli_fetch_assoc($result)) {
                                 // Procesa los resultados aquí
+                                $_SESSION["nom_pro"] = $fila["nom"];
+                                ?>
+                                    <tr>
+                                    <td><?php echo $fila['id_proyecto'] ?></td>
+                                    <td><?php echo $fila['nom'] ?> </td>
+                                    <td><?php echo $fila['id_us']  ?> </td>
+                                    <td><?php echo $fila['costo']  ?> </td>
+                                    <!-- <td>
+                                    <form action="./template.php?mod=editar&id_material=<?php echo $fila['id_proyecto']; ?>" method="post">
+                                        <input type="hidden" name="id_actualizar" value="<?php echo $fila['id_proyecto']; ?>">
+                                        <button type="submit" name="btn_modificar_material" style="background-color: transparent; border: 0px;">
+                                            <img src="../../img/editar-imagen.png" width="40px" height="40px">
+                                        </button>
+                                    </form>
+                                    </td> -->
+                                    <td>
+                                    <form action="./template.php?mod=inicio" method="post">
+                                    <input type="text" name="nom_eliminar" value="<?php echo $fila['id_proyecto']; ?>" hidden>
+                                        <button type="submit" name="btn_eliminar" style="background-color: transparent; border: 0px;">
+                                            <img src="../../img/papelera-de-reciclaje.png" width="40px" height="40px">
+                                        </button>
+                                    </form>
+                                    </td>
+                                    </tr>
+                                <?php
                             }
                         }
                     } else {
                         echo "Error en la preparación de la consulta: " . mysqli_error($conexion);
                     }
-                    
                     // Cierra la declaración preparada
                     mysqli_stmt_close($stmt);
-
-
-                   // ... (Código anterior)
-
-                    while ($fila = mysqli_fetch_assoc($result)) {
-                        // Mostrar resultados en la tabla
-                    
-                ?>
-                    <tr>
-                    <td><?php echo $fila['id_proyecto'] ?> </td>
-                    <td><?php echo $fila['nom'] ?> </td>
-                    <td><?php echo $fila['id_us']  ?> </td>
-                    <td><?php echo $fila['costo']  ?> </td>
-                    <td>
-                    <form action="./template.php?mod=editar&id_material=<?php echo $fila['id_material']; ?>" method="post">
-                        <input type="hidden" name="id_actualizar" value="<?php echo $fila['id_material']; ?>">
-                        <button type="submit" name="btn_modificar_material" style="background-color: transparent; border: 0px;">
-                            <img src="../../img/editar-imagen.png" width="40px" height="40px">
-                        </button>
-                    </form>
-                    </td>
-                    <td>
-                    <form action="./template.php?mod=gestion" method="post">
-                     <input type="text" name="nom_eliminar" value="<?php echo $fila['id_material']; ?>" hidden>
-                        <button type="submit" name="btn_eliminar" style="background-color: transparent; border: 0px;">
-                            <img src="../../img/papelera-de-reciclaje.png" width="40px" height="40px">
-                        </button>
-                    </form>
-                    </td>
-                    </tr>
-                <?php
-                    }
-                    mysqli_close($conexion);
                 ?>
             </tbody>
         </table>
@@ -130,22 +146,22 @@
 
 <input type="checkbox" id="btn_modal">
 <div class="container_modal">
-    <div class="container" id="container">
-        <header>
-            <h3>Crear Nuevo Proyecto</h3>
-        </header>
-        <form action="../documentation/template.php?mod=inicio" method="post">
-            <input type="text" class="form-control" placeholder="Nombre del proyecto">
-        </form>
-        <div class="contenido">
-            <button id="cancelar">
-                <span><strong>Cancelar</strong></span>
-            </button>
-            <button id="btn_crear">
-                <span><strong>Crear</strong></span>
-            </button>
+    <form action="./template.php?mod=inicio" method="post">
+        <div class="container" id="container">
+            <header>
+                <h3>Crear Nuevo Proyecto</h3>
+            </header>
+                <input type="text" class="form-control" name="nom_proyecto" id="nom_proyecto" placeholder="Nombre del proyecto" required>
+            <div class="contenido">
+                <button id="cancelar">
+                    <span><strong>Cancelar</strong></span>
+                </button>
+                <button id="btn_crear" name="btn_crear">
+                    <span><strong>Crear</strong></span>
+                </button>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 
 <!-- ----------------------------------------------- JavaScript ----------------------------------------------------- -->
@@ -162,10 +178,4 @@
     desactivarBoton.addEventListener('click', function() {
         checkbox.checked = false;
     });
-
-    const three = document.getElementById('btn_crear');
-
-    three.addEventListener('click', function(){
-        window.location.href = '../../three/index.php';
-    })
 </script>
