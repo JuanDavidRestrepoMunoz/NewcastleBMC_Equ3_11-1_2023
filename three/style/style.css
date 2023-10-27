@@ -1,0 +1,77 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+img {
+    height: 3vh;
+    width: 1.5vw;
+}
+
+#THREE {
+    height: 93vh;
+    width: 100vw;
+}
+
+.container {
+    height: 100%;
+    width: auto;
+}
+
+.header {
+    background-color: rgb(229, 227, 230);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+}
+
+.header button {
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.header button:hover {
+    background-color: rgb(204, 201, 206);
+}
+
+.header button:active {
+    background-color: rgb(182, 181, 184);
+}
+
+.perfil {
+    border-radius: 5px;
+    display: flex;
+    padding: 1px;
+    justify-content: center;
+    align-items: center;
+}
+
+.perfil:hover {
+    background-color: rgb(204, 201, 206);
+}
+
+.perfil:active {
+    background-color: rgb(182, 181, 184);
+}
+
+.perfil img {
+    border-radius: 100%;
+}
+
+.perfil button {
+    border-radius: 100%;
+    border-color: black;
+}
+
+.navbar {
+    width: 100%;
+    padding: 5px;
+}
+
+.three {
+    margin: 75px;
+}
