@@ -108,7 +108,7 @@ if (isset($_POST['btn_eliminar'])) {
                                 ?>
                                     <tr>
                                     <td><?php echo $fila['id_proyecto'] ?></td>
-                                    <td><?php echo $fila['nom'] ?> </td>
+                                    <td><button id="abrir" ><?php echo $fila['nom'] ?></button></td>
                                     <td><?php echo $fila['id_us']  ?> </td>
                                     <td><?php echo $fila['costo']  ?> </td>
                                     <!-- <td>
@@ -170,7 +170,12 @@ if (isset($_POST['btn_eliminar'])) {
     var checkbox = document.getElementById('btn_modal');
     var activarBoton = document.getElementById('nuevoProyecto');
     var desactivarBoton = document.getElementById('cancelar');
+    const abrir = document.getElementById('abrir');
     
+    abrir.addEventListener('click', function() {
+        window.location='./../../three/index.php';
+    });
+
     activarBoton.addEventListener('click', function() {
         checkbox.checked = true;
     });

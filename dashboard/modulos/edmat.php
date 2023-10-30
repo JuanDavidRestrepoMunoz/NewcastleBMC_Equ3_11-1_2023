@@ -9,7 +9,7 @@ if (isset($_GET['id_material'])) {
     $stmt = mysqli_prepare($conexion, $query);
     mysqli_stmt_bind_param($stmt, "i", $id_actualizar);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $id_material, $nombre, $id_tipo, $textura, $color, $largo, $ancho, $costo);
+    mysqli_stmt_bind_result($stmt, $id_material, $id_us, $nombre, $id_tipo, $textura, $color, $largo, $ancho, $costo);
 
     if (mysqli_stmt_fetch($stmt)) {
         // Los datos del material han sido obtenidos de la base de datos

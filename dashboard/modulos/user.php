@@ -59,8 +59,6 @@ if (isset($_SESSION['corr'])) {
             }
         }else{
 
-            echo "Error al cargar el archivo. Código de error: " . $_FILES['img']['error'];
-
             // No se ha subido una nueva imagen, solo actualiza los otros campos
             $modificar = mysqli_query($conexion, "UPDATE `usuario` SET `apod` = '$a', `nom1` = '$n1', `ape1` = '$a1', `descr` = '$desc' WHERE `usuario`.`correo` = '$correo';") or die ("Error en el registro: " . mysqli_error($conexion));
 
