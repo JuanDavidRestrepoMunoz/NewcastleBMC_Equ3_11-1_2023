@@ -40,7 +40,7 @@ if (isset($_POST['btn_mat'])){
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Textura*</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="text" placeholder="Registre su Nombre" required>
+                        <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="text" placeholder="Registre su Nombre" required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInput" class="form-label">Precio del material*</label>
