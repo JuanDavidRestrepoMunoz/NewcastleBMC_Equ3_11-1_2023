@@ -1,3 +1,24 @@
+<?php
+session_start();
+
+include('conexion.php');
+
+$sql = "SELECT * FROM `proyecto` WHERE `id_us` = {$_SESSION['id_us']} AND `id_proyecto` = {$_SESSION['id_proyecto']}";
+$result = $conexion->query($sql);
+
+if ($result->num_rows > 0) {
+    while ($fila = mysqli_fetch_array($result)) {
+      $_SESSION['archivo'] = $fila['obj'];
+    }
+} else {
+  echo "<script>alert('No se ha podido encontrar ese archivo')</script>";
+  echo "<script>window.history.back();</script>";
+}
+
+// Cierra la conexión
+$conexion->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,6 +76,7 @@
       </style>
 </head>
 <body>
+  <span id="archivo" style="display: none;"><?php echo $_SESSION['archivo']; ?></span>
   <div class="sidebar">
     <ul class="nav-links">
       <li id="liO">

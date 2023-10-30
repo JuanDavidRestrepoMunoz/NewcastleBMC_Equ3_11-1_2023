@@ -4,7 +4,20 @@ include "../../conexion.php";
 if (isset($_POST['btn_crear'])) {
     $nom = $_POST['nom_proyecto'];
     $id_us = $_SESSION['id_us'];
-    $registrar = mysqli_query($conexion, "INSERT INTO `proyecto` (`id_proyecto`, `nom`, `id_us`, `costo`, `obj`) VALUES ('', '$nom', '$id_us', '0', '')") or die (mysqli_error($conexion));
+    $time = time();
+    $nombre_aleatorio = uniqid($_SESSION['apo']) . '_' . $nom . '.json';
+    $directorio_destino = './../../three/archivos/';
+    $json_data = json_encode("");
+    $archivo_destino = $directorio_destino . $nombre_aleatorio;
+    if (file_put_contents($archivo_destino, $json_data)) {
+        $registrar = mysqli_query($conexion, "INSERT INTO `proyecto` (`id_proyecto`, `nom`, `id_us`, `costo`, `obj`) VALUES ('', '$nom', '$id_us', '0', '$nombre_aleatorio')") or die (mysqli_error($conexion));
+        if($registrar){
+            echo "<script>window.location='../../three/index.php';</script>";
+        };
+    } else {
+        echo "Error al crear el archivo JSON.";
+    }
+
 }
 
 if (isset($_POST['btn_eliminar'])) {
@@ -21,6 +34,13 @@ if (isset($_POST['btn_eliminar'])) {
         echo "Error al eliminar el material";
     }
     mysqli_stmt_close($stmt);
+}
+
+if (isset($_GET['id_proyecto'])) {
+    if (isset($_POST['btn_abrir'])){
+        $_SESSION['id_proyecto'] = $_GET['id_proyecto'];
+        echo "<script>window.location='../../three/index.php';</script>";
+    }
 }
 ?>
 
@@ -111,14 +131,14 @@ if (isset($_POST['btn_eliminar'])) {
                                     <td><?php echo $fila['nom'] ?> </td>
                                     <td><?php echo $fila['id_us']  ?> </td>
                                     <td><?php echo $fila['costo']  ?> </td>
-                                    <!-- <td>
-                                    <form action="./template.php?mod=editar&id_material=<?php echo $fila['id_proyecto']; ?>" method="post">
+                                    <td>
+                                    <form action="./template.php?mod=inicio&id_proyecto=<?php echo $fila['id_proyecto']; ?>" method="post">
                                         <input type="hidden" name="id_actualizar" value="<?php echo $fila['id_proyecto']; ?>">
-                                        <button type="submit" name="btn_modificar_material" style="background-color: transparent; border: 0px;">
-                                            <img src="../../img/editar-imagen.png" width="40px" height="40px">
+                                        <button type="submit" id="btn_abrir" name="btn_abrir" style="background-color: transparent; border: 0px;">
+                                            <img src="../../img/carpeta.png" width="40px" height="40px">
                                         </button>
                                     </form>
-                                    </td> -->
+                                    </td>
                                     <td>
                                     <form action="./template.php?mod=inicio" method="post">
                                     <input type="text" name="nom_eliminar" value="<?php echo $fila['id_proyecto']; ?>" hidden>
@@ -167,9 +187,10 @@ if (isset($_POST['btn_eliminar'])) {
 <!-- ----------------------------------------------- JavaScript ----------------------------------------------------- -->
 
 <script>
-    var checkbox = document.getElementById('btn_modal');
-    var activarBoton = document.getElementById('nuevoProyecto');
-    var desactivarBoton = document.getElementById('cancelar');
+    const checkbox = document.getElementById('btn_modal');
+    const activarBoton = document.getElementById('nuevoProyecto');
+    const desactivarBoton = document.getElementById('cancelar');
+    const abrir =document.getElementById("btn_abrir");
     
     activarBoton.addEventListener('click', function() {
         checkbox.checked = true;
@@ -178,4 +199,8 @@ if (isset($_POST['btn_eliminar'])) {
     desactivarBoton.addEventListener('click', function() {
         checkbox.checked = false;
     });
+    
+    abrir.addEventListener('click', (){
+        window.location='../../three/index.php';
+    })
 </script>
