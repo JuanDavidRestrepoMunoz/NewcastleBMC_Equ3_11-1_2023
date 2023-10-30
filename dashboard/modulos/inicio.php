@@ -128,7 +128,7 @@ if (isset($_GET['id_proyecto'])) {
                                 ?>
                                     <tr>
                                     <td><?php echo $fila['id_proyecto'] ?></td>
-                                    <td><?php echo $fila['nom'] ?> </td>
+                                    <td><button id="abrir" ><?php echo $fila['nom'] ?></button></td>
                                     <td><?php echo $fila['id_us']  ?> </td>
                                     <td><?php echo $fila['costo']  ?> </td>
                                     <td>
@@ -187,11 +187,15 @@ if (isset($_GET['id_proyecto'])) {
 <!-- ----------------------------------------------- JavaScript ----------------------------------------------------- -->
 
 <script>
-    const checkbox = document.getElementById('btn_modal');
-    const activarBoton = document.getElementById('nuevoProyecto');
-    const desactivarBoton = document.getElementById('cancelar');
-    const abrir =document.getElementById("btn_abrir");
+    var checkbox = document.getElementById('btn_modal');
+    var activarBoton = document.getElementById('nuevoProyecto');
+    var desactivarBoton = document.getElementById('cancelar');
+    const abrir = document.getElementById('abrir');
     
+    abrir.addEventListener('click', function() {
+        window.location='./../../three/index.php';
+    });
+
     activarBoton.addEventListener('click', function() {
         checkbox.checked = true;
     });

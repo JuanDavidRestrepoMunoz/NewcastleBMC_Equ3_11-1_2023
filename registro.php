@@ -36,7 +36,7 @@
               <div class="container-fluid">
                   <div class="row login">
                       <div class="col-6">
-                          <label class="title">Primer nombre</label>
+                          <label class="title">Primer nombre*</label>
                           <input type="text" class="form-control for" placeholder="Primer nombre" name="nom1" required>
                       </div>
                       <div class="col-6">
@@ -44,7 +44,7 @@
                           <input type="text" class="form-control for" placeholder="Segundo nombre" name="nom2">
                       </div>
                       <div class="col-6">
-                          <label class="title">Primer apellido</label>
+                          <label class="title">Primer apellido*</label>
                           <input type="text" class="form-control for" placeholder="Primer apellido" name="ape1" required>
                       </div>
                       <div class="col-6">
@@ -53,17 +53,17 @@
                       </div>
                       <br><br><br><br>
                       <div class="col-12">
-                          <label class="title">Email</label>
+                          <label class="title">Email*</label>
                           <input type="text" class="form-control for" placeholder="Email" name="correo" required>
                       </div>
                       <br><br><br><br>
                       <div class="col-12">
-                          <label class="title">Apodo</label>
+                          <label class="title">Apodo*</label>
                           <input type="text" class="form-control for" placeholder="Apodo" name="apo" required>
                       </div>
                       <br><br><br><br>
                       <div class="col-12">
-                        <label class="title">Contraseña</label>
+                        <label class="title">Contraseña*</label>
                         <input type="password" class="form-control for" placeholder="Contraseña" name="contra" minlength="8" required>
                         <span class="error-message">La contraseña debe tener al menos 8 caracteres.</span>
                     </div>
