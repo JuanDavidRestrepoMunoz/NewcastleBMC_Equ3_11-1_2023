@@ -54,7 +54,7 @@
                       <br><br><br><br>
                       <div class="col-12">
                           <label class="title">Email*</label>
-                          <input type="text" class="form-control for" placeholder="Email" name="correo" required>
+                          <input type="email" class="form-control for" placeholder="Email" name="correo" required>
                       </div>
                       <br><br><br><br>
                       <div class="col-12">

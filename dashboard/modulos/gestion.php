@@ -73,8 +73,7 @@ if (isset($_POST["btn_modificar_material"])) {
                     <th scope="col">Tipo material</th>
                     <th scope="col">Textura</th>
                     <th scope="col">Color</th>
-                    <th scope="col">Largo</th>
-                    <th scope="col">Ancho</th>
+                    <th scope="col">Medida (cm2)</th>
                     <th scope="col">Costo</th>
                     <th scope="col">Acciones</th>
                 </tr>
@@ -108,8 +107,7 @@ if (isset($_POST["btn_modificar_material"])) {
 
                         <td><?php echo $fila['textura']  ?> </td>
                         <td><?php echo  $fila['color']  ?> </td>
-                        <td><?php echo $fila['largo']  ?> </td>
-                        <td><?php echo $fila['ancho']  ?> </td>
+                        <td><?php echo $fila['largo'] * $fila['ancho']; ?> </td>
                         <td><?php echo $fila['costo']  ?> </td>
                         <td>
                         <form action="./template.php?mod=editar&id_material=<?php echo $fila['id_material']; ?>" method="post">
