@@ -27,8 +27,8 @@
   <div class="container">
     <header class="header">
       <div class="perfil">
-        <button id="logo"><img src="../chatnewcastle/php/images/<?php echo $_SESSION['img']?>" alt="perfil"></button>
-        <label style="text-align: center;" for="perfil"><?php echo $_SESSION['apo'] ?></label>
+        <button id="atras"><img src="../chatnewcastle/php/images/<?php echo $_SESSION['img']?>" alt="perfil"></button>
+        <label style="text-align: center;" for="atras"><?php echo $_SESSION['apo'] ?></label>
       </div>
       <div class="navbar">
         <button>Archivo</button>
@@ -39,8 +39,8 @@
         <button>Vista 3D</button>
         <button>Compartir</button>
       </div>
-      <div class="ncbmc">
-        <img src="../img/icono.png" alt="NCBMC" style="width: 60px; height: 30px;">
+      <div class="atras">
+        <button id="atras"><img src="../img/icono.png" id="atras" alt="NCBMC" style="width: 60px; height: 30px;"></button>
       </div>
     </header>
     <iframe id="THREE" src="./programa_three.php" frameborder="0" scrolling="no"></iframe>
@@ -66,6 +66,11 @@
       materiales.addEventListener('click', () => {
         elementoDentroIframeM.classList.toggle("showMenu");
       });
+    });
+
+    const perfil = document.getElementById('atras');
+    perfil.addEventListener('click', () => {
+      window.location='../dashboard/documentation/template.php';
     });
   </script>
 </body>
