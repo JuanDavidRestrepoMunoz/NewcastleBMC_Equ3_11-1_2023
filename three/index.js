@@ -11,7 +11,7 @@ import {OBJExporter} from './node_modules/three/examples/jsm/exporters/OBJExport
 
 // Constantes y variables globales
 
-let scene, camera, renderer, grid, geometry, textura, material, controls, register = [], dControls, reader, DELETE_KEY = 46, BACKSPACE_KEY = 8, exporterG;
+let scene, camera, renderer, grid, geometry, textura, material, controls, register = [], dControls, reader, DELETE_KEY = 46, BACKSPACE_KEY = 8, exporterG, sceneData;
 var mouse, raycaster, selectedObject = null, selectedFile = null, textureInput;
 
 function init(){
@@ -127,6 +127,7 @@ function init(){
         
         scene.add( cylinder );
         register.push(cylinder);
+
     })
 
     // Botón para agregar conos
@@ -453,7 +454,6 @@ function init(){
                 });
                 controls.attach(object);
             }
-            
 
             document.addEventListener('keydown', (event)=>{
                 if(selectedObject==null){
@@ -713,6 +713,22 @@ function renderAndCapture() {
     imageContainer.appendChild(imageElement);
 }
 
+// Define los datos que deseas enviar
+var data = {
+    objetos: register
+};
+
+// Envia los datos al servidor utilizando AJAX
+
+const autoguardarEscena = () =>{
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "./registrar_escena.php", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.send(JSON.stringify(data));
+}
+
+const intervaloAutoguardado = .3 * 60 * 1000; // 5 minutos en milisegundos
+setInterval(autoguardarEscena, intervaloAutoguardado);
 
 window.addEventListener('resize', redimensionar);
 window.addEventListener('mousemove', onMouseMove, false);

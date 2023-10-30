@@ -1,3 +1,8 @@
+<?php
+  session_start();
+  include('./../conexion.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,6 +56,10 @@
           width: 200px;
           height: 32px;
           display: inline-block;
+        }
+
+        .showMU {
+          margin-right:
         }
       </style>
 </head>
@@ -131,6 +140,57 @@
           <li><button id="papel_nube" class="button"><span style="display:flex;"><img src="texturas/papel_nube.jpg" height="50" width="50"><strong>Papel Nube</strong></span></button></li>
         </ul>
       </li>
+      <li id="liMU">
+        <div class="iocn-link">
+          <button class="showMU">
+            <i class='bx bxs-bookmark-star'></i>
+            <span class="link_name" style="font-size: 12px;">Materiales Usuario</span>
+          </button>
+          <i class='bx bx-plus arrow'></i>
+        </div>
+        <table class="sub-menu" style="width: 80%">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Materiales</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+
+                    include("./../conexion.php");
+                    
+                    $dato = @$_SESSION['id_us'];
+                    
+                    $query = "SELECT * FROM materiales WHERE id_us LIKE ?";
+                    $stmt = mysqli_prepare($conexion, $query);
+                    
+                    if ($stmt) {
+                        mysqli_stmt_bind_param($stmt, "s", $dato);
+                        mysqli_stmt_execute($stmt);
+                        $result = mysqli_stmt_get_result($stmt);
+                    
+                        if ($result && mysqli_num_rows($result) === 0) {
+                            echo "No tienes ningún proyecto creado";
+                        } else {
+                            while ($fila = mysqli_fetch_assoc($result)) {
+                                // Procesa los resultados aquí
+                                $_SESSION["nom_material"] = $fila["nombre"];
+                                ?>
+                                    <tr>
+                                      <td><button id="<?php echo $fila['id_material']?>" class="button"><span><img src="" alt=""><?php echo $fila['nombre']?></span></button></td>
+                                    </tr>
+                                <?php
+                            }
+                        }
+                    } else {
+                        echo "Error en la preparación de la consulta: " . mysqli_error($conexion);
+                    }
+                    // Cierra la declaración preparada
+                    mysqli_stmt_close($stmt);
+                ?>
+            </tbody>
+        </table>
+      </li>
       <li class="finish">
         <button class="button" id="fin">
           <span class="link_name">Terminé</span>
@@ -177,6 +237,8 @@
     let button = document.querySelectorAll('.show');
     let buttonC = document.querySelectorAll('.showC');
     let buttonM = document.querySelectorAll('.showM');
+    let buttonMU = document.querySelectorAll('.showMU');
+
     for (var i = 0; i<arrow.length; i++){
       arrow[i].addEventListener('click', (e)=>{
         let arrowParent = e.target.parentElement.parentElement;
@@ -201,6 +263,13 @@
     for (var i = 0; i<button.length; i++){
       buttonM[i].addEventListener('click', ()=>{
         let arrowParent = document.getElementById('liM');
+        arrowParent.classList.toggle("showMenu");
+      });
+    }
+
+    for (var i = 0; i<button.length; i++){
+      buttonMU[i].addEventListener('click', ()=>{
+        let arrowParent = document.getElementById('liMU');
         arrowParent.classList.toggle("showMenu");
       });
     }

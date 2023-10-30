@@ -29,7 +29,7 @@ if (isset($_SESSION['corr'])) {
         $desc = $_POST['descripcion'];
 
         //verificar si se sube la foto o no
-        if(!empty($_FILES['image']['name']) && $_FILES['image']['error'] === UPLOAD_ERR_OK){//LA FOTO CARGO
+        if(isset($_FILES['image']) && !empty($_FILES['image']['name']) && $_FILES['image']['error'] === UPLOAD_ERR_OK){//LA FOTO CARGO
             $img_name =$_FILES['image']['name']; //Conseguir que el cliente suba el nombre de la imagen
             $tmp_name = $_FILES['image']['tmp_name']; //nombre usado para guardar la imagen en la carpeta
 
@@ -58,8 +58,6 @@ if (isset($_SESSION['corr'])) {
                 echo "porfavor seleccione una imagen- jpeg, jpg, png";
             }
         }else{
-
-            echo "Error al cargar el archivo. Código de error: " . $_FILES['img']['error'];
 
             // No se ha subido una nueva imagen, solo actualiza los otros campos
             $modificar = mysqli_query($conexion, "UPDATE `usuario` SET `apod` = '$a', `nom1` = '$n1', `ape1` = '$a1', `descr` = '$desc' WHERE `usuario`.`correo` = '$correo';") or die ("Error en el registro: " . mysqli_error($conexion));
@@ -122,7 +120,7 @@ if (isset($_SESSION['corr'])) {
                         <h4 class="card-title">Gestión de usuario</h4>
                     </div>
                     <div class="card-body">
-                        <form action="../documentation/template.php?mod=user" method="post">
+                        <form action="../documentation/template.php?mod=user" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-12 pl-1">
                                     <div class="form-group">

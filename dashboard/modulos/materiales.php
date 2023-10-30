@@ -8,7 +8,8 @@ if (isset($_POST['btn_mat'])){
     $med1 = $_POST ['largo'];
     $med2 = $_POST ['ancho'];
     $premat = $_POST ['premat'];
-    $registrar = mysqli_query($conexion,"INSERT INTO `materiales` (`id_material`, `nombre`, `id_tipo`, `textura`, `color`, `largo`, `ancho`, `costo`) VALUES ('', '$nomat', '$tmate', '$text', '$mate',  '$med1',  '$med2', '$premat');") or die ($conexion);
+    $id_us = $_SESSION['id_us'];
+    $registrar = mysqli_query($conexion,"INSERT INTO `materiales` (`id_material`, `id_us`, `nombre`, `id_tipo`, `textura`, `color`, `largo`, `ancho`, `costo`) VALUES ('', '$id_us', '$nomat', '$tmate', '$text', '$mate',  '$med1',  '$med2', '$premat');") or die ($conexion);
     echo "<script>alert('Registro exitoso');</script>";
     echo "<script>window.location='template.php?mod=materiales';</script>";
 }
@@ -39,7 +40,7 @@ if (isset($_POST['btn_mat'])){
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Textura*</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="text" placeholder="Registre su Nombre" required>
+                        <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="text" placeholder="Registre su Nombre" required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInput" class="form-label">Precio del material*</label>
