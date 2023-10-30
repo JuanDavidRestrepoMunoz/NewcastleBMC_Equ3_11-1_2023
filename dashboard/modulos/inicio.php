@@ -10,7 +10,7 @@ if (isset($_POST['btn_crear'])) {
     $json_data = json_encode("");
     $archivo_destino = $directorio_destino . $nombre_aleatorio;
     if (file_put_contents($archivo_destino, $json_data)) {
-        $registrar = mysqli_query($conexion, "INSERT INTO `proyecto` (`id_proyecto`, `nom`, `id_us`, `costo`, `obj`) VALUES ('', '$nom', '$id_us', '0', '$nombre_aleatorio')") or die (mysqli_error($conexion));
+        $registrar = mysqli_query($conexion, "INSERT INTO `proyecto` (`id_proyecto`, `nom`, `id_us`, `costeo`, `obj`) VALUES ('', '$nom', '$id_us', '0', '$nombre_aleatorio')") or die (mysqli_error($conexion));
         if($registrar){
             echo "<script>window.location='../../three/index.php';</script>";
         };
@@ -130,7 +130,7 @@ if (isset($_GET['id_proyecto'])) {
                                     <td><?php echo $fila['id_proyecto'] ?></td>
                                     <td><?php echo $fila['nom'] ?></td>
                                     <td><?php echo $fila['id_us']  ?> </td>
-                                    <td><?php echo $fila['costo']  ?> </td>
+                                    <td><?php echo $fila['costeo']  ?> </td>
                                     <td>
                                     <form action="./template.php?mod=inicio&id_proyecto=<?php echo $fila['id_proyecto']; ?>" method="post">
                                         <input type="hidden" name="id_actualizar" value="<?php echo $fila['id_proyecto']; ?>">
@@ -190,10 +190,6 @@ if (isset($_GET['id_proyecto'])) {
     var checkbox = document.getElementById('btn_modal');
     var activarBoton = document.getElementById('nuevoProyecto');
     var desactivarBoton = document.getElementById('cancelar');
-    
-    abrir.addEventListener('click', function() {
-        window.location='./../../three/index.php';
-    });
 
     activarBoton.addEventListener('click', function() {
         checkbox.checked = true;
