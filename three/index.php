@@ -27,7 +27,7 @@
   <div class="container">
     <header class="header">
       <div class="perfil">
-        <button><img src="../chatnewcastle/php/images/<?php echo $_SESSION['img']?>" alt="perfil"></button>
+        <button id="logo"><img src="../chatnewcastle/php/images/<?php echo $_SESSION['img']?>" alt="perfil"></button>
         <label style="text-align: center;" for="perfil"><?php echo $_SESSION['apo'] ?></label>
       </div>
       <div class="navbar">
@@ -49,7 +49,6 @@
     const objetos = document.getElementById('objetos');
     const colores = document.getElementById('colores');
     const materiales = document.getElementById('materiales');
-
 
     var iframe = document.getElementById('THREE');
     iframe.addEventListener('load', function() {
