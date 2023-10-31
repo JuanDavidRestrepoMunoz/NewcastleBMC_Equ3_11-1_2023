@@ -1,8 +1,9 @@
 <?php
 include "../../conexion.php";
 
-if (isset($_GET['id_material'])) {
-    $id_actualizar = $_GET['id_material'];
+// Preparar la consulta
+$stmt = $conexion->prepare("SELECT id_material, nombre, id_tipo, textura, color, largo, ancho, costo FROM materiales WHERE id_material = ?");
+$stmt->bind_param("s", $tu_valor_de_condicion);
 
     // Consulta para obtener los datos del material
     $query = "SELECT * FROM materiales WHERE id_material = ?";
@@ -11,15 +12,23 @@ if (isset($_GET['id_material'])) {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_bind_result($stmt, $id_us, $id_material, $nombre, $id_tipo, $textura, $color, $largo, $ancho, $costo);
 
-    if (mysqli_stmt_fetch($stmt)) {
-        // Los datos del material han sido obtenidos de la base de datos
-    } else {
-        // Maneja el caso en el que el material no existe.
-    }
+// Debes proporcionar 8 variables para enlazar los resultados
+$stmt->bind_result($id_material, $nombre, $id_tipo, $textura, $color, $largo, $ancho, $costo);
 
-    // Cierra la consulta
-    mysqli_stmt_close($stmt);
+
+if ($stmt->execute()) {
+    while ($stmt->fetch()) {
+        // Accede a los valores de las columnas utilizando las variables de enlace
+        // Por ejemplo:
+        echo "ID Material: $id_material, Nombre: $nombre, Tipo: $id_tipo, Textura: $textura, Color: $color, Largo: $largo, Ancho: $ancho, Costo: $costo";
+    }
+} else {
+    // Manejar cualquier error en la ejecución de la consulta
+    echo "Error en la consulta: " . $stmt->error;
 }
+
+$stmt->close(); // Cierra la consulta preparada al final del proceso
+
 
 include "../../conexion.php";
 ob_start(); // Inicia el almacenamiento en búfer
@@ -103,19 +112,20 @@ ob_end_flush(); // Envía la salida almacenada en búfer al navegador
             </select>
         </div>
             <div class="mb-3">
-                <label for="nuevo_nombre">Nombre del Material:</label>
+                <label for="nombre">Nombre del Material:</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $nombre; ?>">
             </div>
             <div class="mb-3">
                 <label for="nueva_textura">Textura:</label>
+                <label for="textura">Textura:</label>
                 <input type="file" class="form-control" id="textura" name="imagen">
             </div>
             <div class="form-group">
-                <label for="nuevo_color">Color:</label>
+                <label for="color">Color:</label>
                 <input type="text" class="form-control" id="color" name="color" value="<?php echo $color; ?>">
             </div>
             <div class="form-group">
-                <label for="nuevo_largo">Largo:</label>
+                <label for="largo">Largo:</label>
                 <input type="text" class="form-control" id="largo" name="largos" value="<?php echo $largo; ?>">
                 <span id="largo-alert" style="color: red; display: none;">El largo debe ser un número válido.</span>
             </div>
@@ -125,64 +135,13 @@ ob_end_flush(); // Envía la salida almacenada en búfer al navegador
                 <span id="ancho-alert" style="color: red; display: none;">El ancho debe ser un número válido.</span>
             </div>
             <div class="form-group">
-                <label for="nuevo_costo">Costo:</label>
-                <input type="text" class="form-control" id="nuevo_costo" name="premate" value="<?php echo $costo; ?>">
+                <label for="costo">Costo:</label>
+                <input type="text" class="form-control" id="costo" name="premate" value="<?php echo $costo; ?>">
                 <span id="costo-alert" style="color: red; display: none;">El costo debe ser un número entero.</span>
             </div>
             <button type="submit" class="btn btn-primary" name="btn_mac">Actualizar Material</button>
         </form>
     </div>
-
-    <script>
-            function validarPrecio() {
-                const prematInput = document.querySelector('input[name="premat"]');
-                const premat = prematInput.value;
-                const prematValido = /^\d+$/.test(premat); // Verifica si es un número entero
-
-                const prematAlert = document.getElementById("premat-alert");
-
-                if (!prematValido) {
-                    prematAlert.style.display = "block"; // Muestra la alerta si no es válido
-                    return false; // Retorna false para evitar el registro
-                }
-
-                // Validación de la medida de largo
-                const largoInput = document.querySelector('input[name="largo"]');
-                const largo = largoInput.value;
-                const largoValido = /^\d+(\.\d+)?$/.test(largo); // Verifica si es un número o decimal
-
-                const largoAlert = document.getElementById("largo-alert");
-
-                if (!largoValido) {
-                    largoAlert.style.display = "block"; // Muestra la alerta si no es válido
-                    return false; // Retorna false para evitar el registro
-                }
-
-                // Validación de la medida de ancho
-                const anchoInput = document.querySelector('input[name="ancho"]');
-                const ancho = anchoInput.value;
-                const anchoValido = /^\d+(\.\d+)?$/.test(ancho); // Verifica si es un número o decimal
-
-                const anchoAlert = document.getElementById("ancho-alert");
-
-                if (!anchoValido) {
-                    anchoAlert.style.display = "block"; // Muestra la alerta si no es válido
-                    return false; // Retorna false para evitar el registro
-                }
-
-                // Si todas las validaciones pasan, puedes permitir el registro
-                prematAlert.style.display = "none";
-                largoAlert.style.display = "none";
-                anchoAlert.style.display = "none";
-                return true;
-            }
-
-            document.querySelector("form").onsubmit = validarPrecio;
-    </script>
-
-
 </center>   
 </body>
 </html>
-
-
