@@ -2,3 +2,11 @@ Para el correcto funcionamiento del entorno 3D, es necesario cambiar las configu
 Dentro del archivo httpd.conf, se busca la sección nombrada "mime_module", para finalmente agrega en su interior AddType text/javascript .js
 
 REALIZAR ESTOS CAMBIOS CON XAMPP SIN INICIAR
+
+Para cargar imagenes pesadas debe seguir los siguientes pasos:
+
+Abre el archivo de configuración de MySQL (my.ini o my.cnf) en tu entorno XAMPP. Puedes encontrar este archivo en la carpeta de configuración de MySQL en XAMPP.
+
+Busca la sección que contiene la configuración de max_allowed_packet.
+
+Aumenta el valor de max_allowed_packet a un número mayor. Por ejemplo, puedes configurarlo en 16M para permitir paquetes de hasta 16 megabytes

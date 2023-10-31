@@ -53,8 +53,8 @@
                       </div>
                       <br><br><br><br>
                       <div class="col-12">
-                          <label class="title">Email*</label>
-                          <input type="email" class="form-control for" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" name="correo" required>
+                        <label class="title" for="exampleInputEmail1">Correo Electrónico*</label>
+                        <input type="email" class="form-control for" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Correo Electrónico" name="correo" required>
                       </div>
                       <br><br><br><br>
                       <div class="col-12">

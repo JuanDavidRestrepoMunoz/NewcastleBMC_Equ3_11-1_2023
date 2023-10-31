@@ -124,14 +124,6 @@ if (isset($_SESSION['corr'])) {
                             <div class="row">
                                 <div class="col-md-12 pl-1">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Email</label>
-                                        <input type="email" class="form-control" placeholder="Email" name="correo" value="<?php echo $_SESSION['corr']; ?>">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 pl-1">
-                                    <div class="form-group">
                                         <label for="exampleInputEmail1">Apodo</label>
                                         <input type="text" class="form-control" placeholder="Apodo" name="apo" value="<?php echo $_SESSION['apo']; ?>">
                                     </div>
