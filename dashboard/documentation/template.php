@@ -193,6 +193,10 @@ session_start();
                             {
                                 require_once("../modulos/edmat.php");
                             }
+                            if(@ $_GET['mod']=="costear")
+                            {
+                                require_once("../modulos/costom.php");
+                            }
                         ?>
                     </div>
                 </div>
