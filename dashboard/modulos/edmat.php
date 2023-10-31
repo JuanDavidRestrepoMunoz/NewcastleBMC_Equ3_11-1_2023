@@ -9,7 +9,7 @@ if (isset($_GET['id_material'])) {
     $stmt = mysqli_prepare($conexion, $query);
     mysqli_stmt_bind_param($stmt, "i", $id_actualizar);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $id_material, $nombre, $id_tipo, $textura, $color, $largo, $ancho, $costo);
+    mysqli_stmt_bind_result($stmt, $id_us, $id_material, $nombre, $id_tipo, $textura, $color, $largo, $ancho, $costo);
 
     if (mysqli_stmt_fetch($stmt)) {
         // Los datos del material han sido obtenidos de la base de datos
@@ -53,6 +53,20 @@ if (isset($_POST['btn_mac'])) {
 
 
         }
+    } else {
+        // Recoge los datos del formulario
+        $id_tipo = @$_POST['id_tipo'];
+        $nombre = @$_POST['nombre'];
+        $color = @$_POST['color'];
+        $textura = $imagen_base64;
+        $largo = @$_POST['largos'];
+        $ancho = @$_POST['anchos'];
+        $costo = @$_POST['premate'];
+    
+        // Realiza la actualización en la base de datos usando una consulta preparada
+        $query = "UPDATE materiales SET nombre = ?, id_tipo = ?, textura = ?, color = ?, largo = ?, ancho = ?, costo = ? WHERE id_material = ?";
+        $stmt = mysqli_prepare($conexion, $query);
+        mysqli_stmt_bind_param($stmt, "sssssssi", $nombre, $id_tipo, $textura, $color, $largo, $ancho, $costo, $id_actualizar);
     }
 
 
@@ -66,10 +80,6 @@ if (isset($_POST['btn_mac'])) {
 }
 
 ob_end_flush(); // Envía la salida almacenada en búfer al navegador
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -81,7 +91,7 @@ ob_end_flush(); // Envía la salida almacenada en búfer al navegador
 <center>
     <div class="container">
         <h1>Editar Material</h1>
-        <form action="./template.php?mod=editar&id_material=<?php echo $id_actualizar; ?>" method="post">
+        <form action="./template.php?mod=editar&id_material=<?php echo $id_actualizar; ?>" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id_material" value="<?php echo $id_actualizar; ?>">
         <div class="mb-3">
             <label for="exampleFormControlSelect1">Tipo de Material</label>
@@ -98,7 +108,7 @@ ob_end_flush(); // Envía la salida almacenada en búfer al navegador
             </div>
             <div class="mb-3">
                 <label for="nueva_textura">Textura:</label>
-                <input type="file" class="form-control" id="textura" name="imagen" value="<?php echo $textura; ?>">
+                <input type="file" class="form-control" id="textura" name="imagen">
             </div>
             <div class="form-group">
                 <label for="nuevo_color">Color:</label>
