@@ -13,7 +13,7 @@ if (isset($_POST['btn_mat'])){
             $imagen_base64 = base64_encode($imagen_contenido);
 
             $nomat = $_POST ['nomat'];
-            $mate = $_POST ['mate'];
+            $tmate = $_POST ['tmate'];
             $text = $imagen_base64;
             $med1 = $_POST ['largo'];
             $med2 = $_POST ['ancho'];
@@ -53,7 +53,7 @@ if (isset($_POST['btn_mat'])){
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Textura*</label>
-                        <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="text" value="Registre su Nombre" required>
+                        <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="imagen" value="Registre su Nombre" required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInput" class="form-label">Precio del material*</label>
