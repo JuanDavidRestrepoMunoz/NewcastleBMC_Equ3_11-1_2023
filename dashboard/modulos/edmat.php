@@ -26,19 +26,36 @@ include "../../conexion.php";
 ob_start(); // Inicia el almacenamiento en búfer
 
 if (isset($_POST['btn_mac'])) {
-    // Recoge los datos del formulario
-    $id_tipo = @$_POST['id_tipo'];
-    $nombre = @$_POST['nombre'];
-    $color = @$_POST['color'];
-    $textura = @$_POST['textura'];
-    $largo = @$_POST['largos'];
-    $ancho = @$_POST['anchos'];
-    $costo = @$_POST['premate'];
 
-    // Realiza la actualización en la base de datos usando una consulta preparada
-    $query = "UPDATE materiales SET nombre = ?, id_tipo = ?, textura = ?, color = ?, largo = ?, ancho = ?, costo = ? WHERE id_material = ?";
-    $stmt = mysqli_prepare($conexion, $query);
-    mysqli_stmt_bind_param($stmt, "sssssssi", $nombre, $id_tipo, $textura, $color, $largo, $ancho, $costo, $id_actualizar);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+        // Ruta donde se guardará la imagen temporalmente
+        $temp_path = $_FILES['imagen']['tmp_name'];
+    
+        // Lee el contenido de la imagen
+        $imagen_contenido = file_get_contents($temp_path);
+    
+        if ($imagen_contenido !== false) {
+            // Convierte el contenido de la imagen a base64
+            $imagen_base64 = base64_encode($imagen_contenido);
+            
+            // Recoge los datos del formulario
+            $id_tipo = @$_POST['id_tipo'];
+            $nombre = @$_POST['nombre'];
+            $color = @$_POST['color'];
+            $textura = $imagen_base64;
+            $largo = @$_POST['largos'];
+            $ancho = @$_POST['anchos'];
+            $costo = @$_POST['premate'];
+
+            // Realiza la actualización en la base de datos usando una consulta preparada
+            $query = "UPDATE materiales SET nombre = ?, id_tipo = ?, textura = ?, color = ?, largo = ?, ancho = ?, costo = ? WHERE id_material = ?";
+            $stmt = mysqli_prepare($conexion, $query);
+            mysqli_stmt_bind_param($stmt, "sssssssi", $nombre, $id_tipo, $textura, $color, $largo, $ancho, $costo, $id_actualizar);
+
+
+        }
+    }
+
 
     if (mysqli_stmt_execute($stmt)) {
         echo "El material ha sido actualizado con éxito";
@@ -82,7 +99,7 @@ ob_end_flush(); // Envía la salida almacenada en búfer al navegador
             </div>
             <div class="mb-3">
                 <label for="nueva_textura">Textura:</label>
-                <input type="text" class="form-control" id="textura" name="textura" value="<?php echo $textura; ?>">
+                <input type="file" class="form-control" id="textura" name="imagen" value="<?php echo $textura; ?>">
             </div>
             <div class="form-group">
                 <label for="nuevo_color">Color:</label>
