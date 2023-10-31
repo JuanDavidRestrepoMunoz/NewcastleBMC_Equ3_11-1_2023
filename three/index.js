@@ -521,7 +521,12 @@ function init(){
             }
 
             const colores = [document.getElementById('rojo'), document.getElementById('amarillo'), document.getElementById('coral'), document.getElementById('naranja'), document.getElementById('verdeC'), document.getElementById('verdeO'), document.getElementById('azulC'), document.getElementById('azulO'), document.getElementById('indigo'), document.getElementById('purpura'), document.getElementById('violeta'), document.getElementById('marron'), document.getElementById('blanco'), document.getElementById('gris'), document.getElementById('negro')];
-            const materialP = [document.getElementById('madera_balso'), document.getElementById('madera_mdf'), document.getElementById('madera_triplex'), document.getElementById('carton_paja'), document.getElementById('carton_industrial'), document.getElementById('carton_durex'), document.getElementById('carton_duplex'), document.getElementById('carton_canson'), document.getElementById('papel_opalina'), document.getElementById('papel_arana'), document.getElementById('papel_nube')];
+            const materialP = [document.getElementById('madera_balso'), document.getElementById('madera_mdf'), document.getElementById('madera_triplex'), document.getElementById('carton_paja'), document.getElementById('carton_industrial'), document.getElementById('carton_durex'), document.getElementById('carton_duplex'), document.getElementById('carton_canson'), document.getElementById('papel_opalina'), document.getElementById('papel_arana'), document.getElementById('papel_nube'), document.getElementById('mat')];
+            const imat = document.getElementById('imat');
+            const imagenUsuario = imat.textContent;
+            // const imagenElement = document.getElementById('imagenElement');
+            // imagenElement.src = imagenUsuario;
+            
 
             function cambiarColor(color) {
                 if (selectedObject) {
@@ -629,7 +634,10 @@ function init(){
             materialP[10].addEventListener('click', ()=>{
                 cambiarTextura('./texturas/papel_nube.jpg');
             })
-
+            materialP[11].addEventListener('click', ()=>{
+                cambiarTextura(imagenUsuario);
+                console.log(imagenUsuario);
+            })
         }
     });
 
@@ -696,7 +704,7 @@ function redimensionar(){
 // Localizador por coordenadas
 
 function onMouseMove ( event ){
-    mouse.x = (event.clientX / window.innerWidth - .123) * 2 - 1;
+    mouse.x = (event.clientX / window.innerWidth - .139) * 2 - 1;
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 }
 

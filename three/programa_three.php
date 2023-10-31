@@ -188,7 +188,7 @@
                                 $_SESSION["nom_material"] = $fila["nombre"];
                                 ?>
                                     <tr>
-                                      <td><button id="<?php echo $fila['id_material']?>" class="button"><span><img src="" alt=""><?php echo $fila['nombre']?><?php echo '<img src="data:' . $fila['textura'] . ';base64,' . $fila['textura'] . '" alt="Imagen Base64" height="50" width="50">'; ?></span></button></td>
+                                      <td><button id="mat" class="button"><span><span id="imat" style="display: none;"><?php echo "data:image/png;base64,{$fila['textura']}"?></span><?php echo $fila['nombre']?><?php $_SESSION['textura']=$fila['textura']; echo '<img src="data:' . $fila['textura'] . ';base64,' . $fila['textura'] . '" id="imagenElement" alt="Imagen Base64" height="50" width="50">'; ?></span></button></td>
                                     </tr>
                                 <?php
                             }
