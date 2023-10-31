@@ -19,7 +19,7 @@ if (isset($_POST['btn_mat'])){
             $med2 = $_POST ['ancho'];
             $premat = $_POST ['premat'];
             $id_us = $_SESSION['id_us'];
-            $registrar = mysqli_query($conexion,"INSERT INTO `materiales` (`id_material`, `id_us`, `nombre`, `id_tipo`, `textura`, `color`, `largo`, `ancho`, `costo`) VALUES ('', '$id_us', '$nomat', '$tmate', '$text', '$mate',  '$med1',  '$med2', '$premat');") or die ($conexion);
+            $registrar = mysqli_query($conexion,"INSERT INTO `materiales` (`id_material`, `id_us`, `nombre`, `id_tipo`, `textura`, `color`, `largo`, `ancho`, `costo`) VALUES ('', '$id_us', '$nomat', '$tmate', '$text', '$tmate',  '$med1',  '$med2', '$premat');") or die ($conexion);
             echo "<script>alert('Registro exitoso');</script>";
             echo "<script>window.location='template.php?mod=materiales';</script>";
             $tmate = $_POST ['tmate'];
@@ -78,23 +78,23 @@ if (isset($_POST['btn_mat'])){
             </div>
         </div>
         <script>
-        function validarPrecio() {
-            const prematInput = document.querySelector('input[name="premat"]');
-            const premat = prematInput.value;
-            const prematValido = /^\d+$/.test(premat); // Verifica si es un número entero
-
-            const prematAlert = document.getElementById("premat-alert");
-
-            if (prematValido) {
-                prematAlert.style.display = "none"; // Oculta la alerta si es válido
-                return true; // Retorna true para permitir el registro
-            } else {
-                prematAlert.style.display = "block"; // Muestra la alerta si no es válido
-                return false; // Retorna false para evitar el registro
+            function validarPrecio() {
+                const prematInput = document.querySelector('input[name="premat"]');
+                const premat = prematInput.value;
+                const prematValido = /^\d+$/.test(premat); // Verifica si es un número entero
+            
+                const prematAlert = document.getElementById("premat-alert");
+            
+                if (prematValido) {
+                    prematAlert.style.display = "none"; // Oculta la alerta si es válido
+                    return true; // Retorna true para permitir el registro
+                } else {
+                    prematAlert.style.display = "block"; // Muestra la alerta si no es válido
+                    return false; // Retorna false para evitar el registro
+                }
             }
-        }
-
-        document.querySelector("form").onsubmit = validarPrecio;
+        
+            document.querySelector("form").onsubmit = validarPrecio;
         </script>
 
 </center>
