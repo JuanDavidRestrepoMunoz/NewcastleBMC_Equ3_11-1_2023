@@ -9,7 +9,7 @@ if (isset($_GET['id_material'])) {
     $stmt = mysqli_prepare($conexion, $query);
     mysqli_stmt_bind_param($stmt, "i", $id_actualizar);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $id_material, $id_us, $nombre, $id_tipo, $textura, $color, $largo, $ancho, $costo);
+    mysqli_stmt_bind_result($stmt, $id_material, $nombre, $id_tipo, $textura, $color, $largo, $ancho, $costo);
 
     if (mysqli_stmt_fetch($stmt)) {
         // Los datos del material han sido obtenidos de la base de datos
@@ -20,7 +20,6 @@ if (isset($_GET['id_material'])) {
     // Cierra la consulta
     mysqli_stmt_close($stmt);
 }
-
 
 include "../../conexion.php";
 ob_start(); // Inicia el almacenamiento en búfer
@@ -108,10 +107,12 @@ ob_end_flush(); // Envía la salida almacenada en búfer al navegador
             <div class="form-group">
                 <label for="nuevo_largo">Largo:</label>
                 <input type="text" class="form-control" id="largo" name="largos" value="<?php echo $largo; ?>">
+                <span id="largo-alert" style="color: red; display: none;">El largo debe ser un número válido.</span>
             </div>
             <div class="form-group">
                 <label for="nuevo_ancho">Ancho:</label>
                 <input type="text" class="form-control" id="nuevo_ancho" name="anchos" value="<?php echo $ancho; ?>">
+                <span id="ancho-alert" style="color: red; display: none;">El ancho debe ser un número válido.</span>
             </div>
             <div class="form-group">
                 <label for="nuevo_costo">Costo:</label>
@@ -123,23 +124,50 @@ ob_end_flush(); // Envía la salida almacenada en búfer al navegador
     </div>
 
     <script>
-        function validarCosto() {
-            const costoInput = document.getElementById("nuevo_costo");
-            const costo = costoInput.value;
-            const costoValido = /^\d+$/.test(costo); // Verifica si es un número entero
+            function validarPrecio() {
+                const prematInput = document.querySelector('input[name="premat"]');
+                const premat = prematInput.value;
+                const prematValido = /^\d+$/.test(premat); // Verifica si es un número entero
 
-            const costoAlert = document.getElementById("costo-alert");
+                const prematAlert = document.getElementById("premat-alert");
 
-            if (costoValido) {
-                costoAlert.style.display = "none"; // Oculta la alerta si es válido
-                return true; // Retorna true para permitir la actualización
-            } else {
-                costoAlert.style.display = "block"; // Muestra la alerta si no es válido
-                return false; // Retorna false para evitar la actualización
+                if (!prematValido) {
+                    prematAlert.style.display = "block"; // Muestra la alerta si no es válido
+                    return false; // Retorna false para evitar el registro
+                }
+
+                // Validación de la medida de largo
+                const largoInput = document.querySelector('input[name="largo"]');
+                const largo = largoInput.value;
+                const largoValido = /^\d+(\.\d+)?$/.test(largo); // Verifica si es un número o decimal
+
+                const largoAlert = document.getElementById("largo-alert");
+
+                if (!largoValido) {
+                    largoAlert.style.display = "block"; // Muestra la alerta si no es válido
+                    return false; // Retorna false para evitar el registro
+                }
+
+                // Validación de la medida de ancho
+                const anchoInput = document.querySelector('input[name="ancho"]');
+                const ancho = anchoInput.value;
+                const anchoValido = /^\d+(\.\d+)?$/.test(ancho); // Verifica si es un número o decimal
+
+                const anchoAlert = document.getElementById("ancho-alert");
+
+                if (!anchoValido) {
+                    anchoAlert.style.display = "block"; // Muestra la alerta si no es válido
+                    return false; // Retorna false para evitar el registro
+                }
+
+                // Si todas las validaciones pasan, puedes permitir el registro
+                prematAlert.style.display = "none";
+                largoAlert.style.display = "none";
+                anchoAlert.style.display = "none";
+                return true;
             }
-        }
 
-        document.querySelector("form").onsubmit = validarCosto;
+            document.querySelector("form").onsubmit = validarPrecio;
     </script>
 
 

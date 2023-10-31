@@ -69,18 +69,15 @@ if (isset($_POST['btn_mat'])){
                         <span id="premat-alert" style="color: red; display: none;">El precio debe ser un número entero.</span>
                     </div>
                     <div class="mb-3">
-                    <div class="">
-                        <label for="exampleInput" class="form-label ">Medida del material (cm)*</label>                                                           
+                        <label for="exampleInput" class="form-label">Medida del material (cm)*</label>
                         <input type="text" class="form-control" name="largo" placeholder="Escriba el largo de su material" required>
                         <span id="largo-alert" style="color: red; display: none;">El largo debe ser un número válido.</span>
                     </div>
-                    </div>
+
                     <div class="mb-3">
-                        <div class="">
-                            <label for="exampleInput" class="form-label ">Medida del material (cm)*</label>                                                           
-                            <input type="text" class="form-control" name="ancho" placeholder="Escriba el ancho de su material" required>
-                            <span id="ancho-alert" style="color: red; display: none;">El ancho debe ser un número válido.</span>
-                        </div>
+                        <label for="exampleInput" class="form-label">Medida del material (cm)*</label>
+                        <input type="text" class="form-control" name="ancho" placeholder="Escriba el ancho de su material" required>
+                        <span id="ancho-alert" style="color: red; display: none;">El ancho debe ser un número válido.</span>
                     </div>
                     <br>
                     <button type="submit" class="btn btn-primary" name="btn_mat">Ingresar</button>
@@ -92,51 +89,48 @@ if (isset($_POST['btn_mat'])){
         <script>
             function validarPrecio() {
                 const prematInput = document.querySelector('input[name="premat"]');
-                const largoInput = document.querySelector('input[name="largo"]');
-                const anchoInput = document.querySelector('input[name="ancho"]');
-                
                 const premat = prematInput.value;
-                const largo = parseFloat(largoInput.value); // Convierte el valor a un número flotante
-                const ancho = parseFloat(anchoInput.value); // Convierte el valor a un número flotante
-
-                const prematValido = /^\d+$/.test(premat); // Verifica si "premat" es un número entero
-                const largoValido = !isNaN(largo); // Verifica si "largo" es un número válido
-                const anchoValido = !isNaN(ancho); // Verifica si "ancho" es un número válido
+                const prematValido = /^\d+$/.test(premat); // Verifica si es un número entero
 
                 const prematAlert = document.getElementById("premat-alert");
-                const largoAlert = document.getElementById("largo-alert");
-                const anchoAlert = document.getElementById("ancho-alert");
 
-                if (prematValido && largoValido && anchoValido) {
-                    prematAlert.style.display = "none"; // Oculta la alerta si "premat" es válido
-                    largoAlert.style.display = "none"; // Oculta la alerta si "largo" es válido
-                    anchoAlert.style.display = "none"; // Oculta la alerta si "ancho" es válido
-                    return true; // Retorna true para permitir el registro
-                } else {
-                    if (!prematValido) {
-                        prematAlert.style.display = "block"; // Muestra la alerta si "premat" no es válido
-                    } else {
-                        prematAlert.style.display = "none"; // Oculta la alerta si "premat" es válido
-                    }
-
-                    if (isNaN(largo)) {
-                        largoAlert.style.display = "block"; // Muestra la alerta si "largo" no es válido
-                    } else {
-                        largoAlert.style.display = "none"; // Oculta la alerta si "largo" es válido
-                    }
-
-                    if (isNaN(ancho)) {
-                        anchoAlert.style display = "block"; // Muestra la alerta si "ancho" no es válido
-                    } else {
-                        anchoAlert.style.display = "none"; // Oculta la alerta si "ancho" es válido
-                    }
-
+                if (!prematValido) {
+                    prematAlert.style.display = "block"; // Muestra la alerta si no es válido
                     return false; // Retorna false para evitar el registro
                 }
+
+                // Validación de la medida de largo
+                const largoInput = document.querySelector('input[name="largo"]');
+                const largo = largoInput.value;
+                const largoValido = /^\d+(\.\d+)?$/.test(largo); // Verifica si es un número o decimal
+
+                const largoAlert = document.getElementById("largo-alert");
+
+                if (!largoValido) {
+                    largoAlert.style.display = "block"; // Muestra la alerta si no es válido
+                    return false; // Retorna false para evitar el registro
+                }
+
+                // Validación de la medida de ancho
+                const anchoInput = document.querySelector('input[name="ancho"]');
+                const ancho = anchoInput.value;
+                const anchoValido = /^\d+(\.\d+)?$/.test(ancho); // Verifica si es un número o decimal
+
+                const anchoAlert = document.getElementById("ancho-alert");
+
+                if (!anchoValido) {
+                    anchoAlert.style.display = "block"; // Muestra la alerta si no es válido
+                    return false; // Retorna false para evitar el registro
+                }
+
+                // Si todas las validaciones pasan, puedes permitir el registro
+                prematAlert.style.display = "none";
+                largoAlert.style.display = "none";
+                anchoAlert.style.display = "none";
+                return true;
             }
 
             document.querySelector("form").onsubmit = validarPrecio;
         </script>
-
 
 </center>
