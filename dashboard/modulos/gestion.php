@@ -102,10 +102,7 @@ if (isset($_POST["btn_modificar_material"])) {
                     <td><?php echo $fila['nombre'] ?> </td>
                     <td><?php echo obtenerNombreTipoMaterial($fila['id_tipo']) ?> </td> 
 
-                        
-                        
-
-                        <td><?php echo $fila['textura']  ?> </td>
+                    <td><?php echo '<img src="data:' . $fila['textura'] . ';base64,' . $fila['textura'] . '" alt="Imagen Base64" height="50" width="50">'; ?></td>
                         <td><?php echo  $fila['color']  ?> </td>
                         <td><?php echo $fila['largo'] * $fila['ancho']; ?> </td>
                         <td><?php echo $fila['costo']  ?> </td>
