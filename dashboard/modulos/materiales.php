@@ -21,7 +21,7 @@ if (isset($_POST['btn_mat'])){
 ?>
 
 <center>
-<h1>Creación de materiales</h1>
+<h1>Creación materiales</h1>
 <div class="row login">
             <div class="col-md-12">
                 <form action="../documentation/template.php?mod=materiales" method="post" onsubmit="return validarPrecio();">
