@@ -1,6 +1,15 @@
 <?php
   session_start();
   include('./../conexion.php');
+
+  $consulta = mysqli_query($conexion, "SELECT * FROM proyecto WHERE id_proyecto = '{$_SESSION["id_proyecto"]}'") or die($conexion);
+  $resultado = mysqli_num_rows($consulta);
+  // Verifica que es 1.
+  if ($resultado == 1) {
+      while ($fila = mysqli_fetch_array($consulta)) {
+          $_SESSION["obj"] = $fila["obj"];
+      }
+  }
 ?>
 
 <!DOCTYPE html>

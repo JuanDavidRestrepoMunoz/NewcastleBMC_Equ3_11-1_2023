@@ -98,6 +98,7 @@ function init(){
     
         scene.add(cube);
         register.push(cube);
+        autoguardarEscena();
     });
 
     // Botón para agregar cilindros
@@ -127,6 +128,7 @@ function init(){
         
         scene.add( cylinder );
         register.push(cylinder);
+        autoguardarEscena();
 
     })
 
@@ -157,6 +159,7 @@ function init(){
         
         scene.add( cone );
         register.push(cone);
+        autoguardarEscena();
     })
 
     // Botón para agregar piramides
@@ -186,6 +189,7 @@ function init(){
 
         scene.add(pyramid)
         register.push(pyramid);
+        autoguardarEscena();
     })
 
     // Botón para agregar esferas
@@ -215,6 +219,7 @@ function init(){
         
         scene.add( sphere );
         register.push(sphere);
+        autoguardarEscena();
     })
 
     // Botón para agregar capsulas
@@ -244,6 +249,7 @@ function init(){
         
         scene.add( capsule );
         register.push(capsule);
+        autoguardarEscena();
     })
 
     // Botón para agregar dodecaedros
@@ -273,6 +279,7 @@ function init(){
 
         scene.add(dodecaedro);
         register.push(dodecaedro);
+        autoguardarEscena();
     })
 
     // Botón para agregar icosaedros
@@ -302,6 +309,7 @@ function init(){
 
         scene.add(icosaedro);
         register.push(icosaedro);
+        autoguardarEscena();
     })
 
     // Botón para agregar anillos
@@ -331,6 +339,7 @@ function init(){
         
         scene.add( ring );
         register.push(ring);
+        autoguardarEscena();
     })
 
     // Botón para agregar tubos
@@ -379,6 +388,7 @@ function init(){
 
         scene.add( tube );
         register.push(tube);
+        autoguardarEscena();
     })
 
     // Botón para agregar corazones
@@ -424,6 +434,7 @@ function init(){
 
         scene.add( heart );
         register.push(heart);
+        autoguardarEscena();
     })
 
     // Eventos para la movilidad y transformación de los objetos seleccionados (ABSOLUTAMENTE NO TOCAR)
@@ -435,6 +446,7 @@ function init(){
             dControls.deactivate();
             dControls.dispose();
             selectedObject = null
+            autoguardarEscena();
             return;
         }
         
@@ -453,6 +465,7 @@ function init(){
                     orbit.enabled = !e.value;
                 });
                 controls.attach(object);
+                autoguardarEscena();
             }
 
             document.addEventListener('keydown', (event)=>{
@@ -462,14 +475,17 @@ function init(){
                     configureControls('rotate', selectedObject);
                     dControls.deactivate();
                     dControls.dispose();
+                    autoguardarEscena();
                 }else if(event.keyCode === 69 || event.keyCode === 101){
                     configureControls('scale', selectedObject)
                     dControls.deactivate();
                     dControls.dispose();
+                    autoguardarEscena();
                 }else if(event.keyCode === 84){
                     configureControls('translate', selectedObject)
                     dControls.deactivate();
                     dControls.dispose();
+                    autoguardarEscena();
                 }else if(event.keyCode === DELETE_KEY || event.keyCode === BACKSPACE_KEY){
                     register = register.filter((object) => object !== selectedObject);
                     scene.remove(selectedObject);
@@ -477,6 +493,7 @@ function init(){
                     dControls.deactivate();
                     dControls.dispose();
                     selectedObject=null;
+                    autoguardarEscena();
                 }
             })
 
@@ -512,6 +529,7 @@ function init(){
                         selectedObject.material.color.set(color);
                     }
                 }
+                autoguardarEscena();
             }
 
             const textureLoader = new THREE.TextureLoader();
@@ -528,6 +546,8 @@ function init(){
                         selectedObject.material = new THREE.MeshBasicMaterial({ map: newTexture });
                     }
                 }
+
+                autoguardarEscena();
             }
 
             colores[0].addEventListener('click', ()=>{
@@ -720,11 +740,15 @@ var data = {
 
 // Envia los datos al servidor utilizando AJAX
 
-const autoguardarEscena = () =>{
+const autoguardarEscena = () => {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "./registrar_escena.php", true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.send(JSON.stringify(data));
+
+    // Suponiendo que 'data' es un objeto JavaScript que deseas enviar como JSON
+    var jsonData = JSON.stringify(data);
+
+    xhr.send(jsonData);
 }
 
 const intervaloAutoguardado = .3 * 60 * 1000; // 5 minutos en milisegundos
