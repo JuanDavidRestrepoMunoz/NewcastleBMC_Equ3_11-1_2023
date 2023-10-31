@@ -696,7 +696,7 @@ function redimensionar(){
 // Localizador por coordenadas
 
 function onMouseMove ( event ){
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.x = (event.clientX / window.innerWidth - .123) * 2 - 1;
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 }
 
@@ -735,11 +735,9 @@ function renderAndCapture() {
 
 // Define los datos que deseas enviar
 var data = {
-    objetos: register
+    register
 };
-
 // Envia los datos al servidor utilizando AJAX
-
 const autoguardarEscena = () => {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "./registrar_escena.php", true);

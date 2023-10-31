@@ -8,6 +8,7 @@
   if ($resultado == 1) {
       while ($fila = mysqli_fetch_array($consulta)) {
           $_SESSION["obj"] = $fila["obj"];
+          $_SESSION["pre"] = $fila["costeo"];
       }
   }
 ?>
@@ -73,6 +74,7 @@
       </style>
 </head>
 <body>
+  <span id="dir"><?php echo $_SESSION['obj']?></span>
   <div class="sidebar">
     <ul class="nav-links">
       <li id="liO">
@@ -228,7 +230,7 @@
             </header>
             <div class="materiales">
               <p>Materiales</p>
-              <p>Precio aproximado: </p>
+              <p>Precio aproximado: $<?php echo $_SESSION['pre']?></p>
             </div>
           </div>
         </div>
