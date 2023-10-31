@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -27,9 +31,7 @@
                     <div class="container-fluid contenedor">
                     <form action="index.php" method="post">
                     <?php
-                        //Permite abrir las sesiones.
-                        session_start();
-                            //Incluimos la conexión.
+                        //Incluimos la conexión.
                             include ("conexion.php");
                             //Verificamos acción del boton.
                             if(isset($_POST['in'])){
