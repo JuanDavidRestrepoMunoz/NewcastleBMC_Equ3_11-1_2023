@@ -1,11 +1,11 @@
-<center>
 <?php
 include "../../conexion.php";
 
 $mensaje = '';
-$costeo_total = 0; // Inicializa el costo total en 0
+$costeo_total = 0;
 
 if (isset($_POST['calcularPresupuesto'])) {
+    $proyecto_id = $_POST['proyecto']; // Obtén el ID del proyecto seleccionado
     $materiales = $_POST['material'];
     $factores = $_POST['factor'];
 
@@ -32,14 +32,12 @@ if (isset($_POST['calcularPresupuesto'])) {
         }
 
         // Actualiza el valor de costeo en la tabla proyecto
-        $proyecto_id = 1; // Reemplaza con el ID del proyecto actual
         $queryUpdate = "UPDATE proyecto SET costeo = ? WHERE id_proyecto = ?";
         $stmtUpdate = mysqli_prepare($conexion, $queryUpdate);
         mysqli_stmt_bind_param($stmtUpdate, "di", $costeo_total, $proyecto_id);
 
-
         if (mysqli_stmt_execute($stmtUpdate)) {
-            $mensaje = "El presupuesto total es: $" . $costeo_total . " y se ha guardado en la base de datos.";
+            $mensaje = "El presupuesto total es: $" . $costeo_total . " y se ha guardado en la base de datos para el proyecto seleccionado.";
         } else {
             $mensaje = "Error al guardar el costeo en la base de datos.";
         }
@@ -49,6 +47,7 @@ if (isset($_POST['calcularPresupuesto'])) {
         $mensaje = "La selección de materiales no es válida.";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -111,11 +110,28 @@ if (isset($_POST['calcularPresupuesto'])) {
         <h1>Costeo</h1>
 
         <form action="./template.php?mod=costear" method="post">
+            <label for="proyecto">Selecciona un proyecto:</label>
+            <select name="proyecto" id="proyecto">
+                <!-- Genera opciones para seleccionar proyectos -->
+                <?php
+                $queryProyectos = "SELECT id_proyecto, nom FROM proyecto";
+                $resultadoProyectos = mysqli_query($conexion, $queryProyectos);
+                
+                if ($resultadoProyectos) {
+                    while ($filaProyecto = mysqli_fetch_assoc($resultadoProyectos)) {
+                        echo '<option value="' . $filaProyecto['id_proyecto'] . '">' . $filaProyecto['nom'] . '</option>';
+                    }
+                } else {
+                    echo 'Error en la consulta SQL: ' . mysqli_error($conexion);
+                }
+                                
+                ?>
+            </select>
             <div id="materialInputs">
                 <div class="material-input">
                     <label for="material">Selecciona un material:</label>
                     <select name="material[]" id="material">
-                        <!-- Generar opciones para seleccionar materiales -->
+                        <!-- Genera opciones para seleccionar materiales -->
                         <?php
                         $queryMateriales = "SELECT id_material, nombre FROM materiales";
                         $resultadoMateriales = mysqli_query($conexion, $queryMateriales);
@@ -150,5 +166,3 @@ if (isset($_POST['calcularPresupuesto'])) {
     </script>
 </body>
 </html>
-
-</center>
