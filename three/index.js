@@ -704,7 +704,7 @@ function redimensionar(){
 // Localizador por coordenadas
 
 function onMouseMove ( event ){
-    mouse.x = (event.clientX / window.innerWidth - .139) * 2 - 1;
+    mouse.x = (event.clientX / window.innerWidth - .114) * 2 - 1;
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 }
 

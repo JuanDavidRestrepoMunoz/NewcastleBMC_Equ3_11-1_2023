@@ -1,16 +1,6 @@
 <?php
   session_start();
-  include('./../conexion.php');
-
-  $consulta = mysqli_query($conexion, "SELECT * FROM proyecto WHERE id_proyecto = '{$_SESSION["id_proyecto"]}'") or die($conexion);
-  $resultado = mysqli_num_rows($consulta);
-  // Verifica que es 1.
-  if ($resultado == 1) {
-      while ($fila = mysqli_fetch_array($consulta)) {
-          $_SESSION["obj"] = $fila["obj"];
-          $_SESSION["pre"] = $fila["costeo"];
-      }
-  }
+f
 ?>
 
 <!DOCTYPE html>
@@ -74,7 +64,7 @@
       </style>
 </head>
 <body>
-  <span id="dir"><?php echo $_SESSION['obj']?></span>
+  <!-- <span id="dir" style="display=none;"><?php echo $_SESSION['obj']?></span> -->
   <div class="sidebar">
     <ul class="nav-links">
       <li id="liO">
@@ -90,9 +80,9 @@
           <li><button id="addCube" class="button"><img class="inside" src="img/cube-solid-24.png"><span>CUBO</span></button></li>
           <li><button id="addCylind" class="button"><img class="inside" src="img/cylinder-solid-24.png"><span>CILINDRO</span></button></li>
           <li><button id="addCone" class="button"><img class="inside" src="img/cone.png"><span>CONO</span></button></li>
-          <li><button id="addPiram" class="button"><img class="inside" src="img/pyramid.png"><span>PIRAMIDE</span></button></li>
+          <li><button id="addPiram" class="button"><img class="inside" src="img/pyramid.png"><span>PIRÁMIDE</span></button></li>
           <li><button id="addSphere" class="button"><img class="inside" src="img/sphere.png"><span>ESFERA</span></button></li>
-          <li><button id="addCapsule" class="button"><img class="inside" src="img/capsule.png"><span>CAPSULA</span></button></li>
+          <li><button id="addCapsule" class="button"><img class="inside" src="img/capsule.png"><span>CÁPSULA</span></button></li>
           <li><button id="addDode" class="button"><img class="inside" src="img/dodecahedron.png"><span>DODECAEDRO</span></button></li>
           <li><button id="addIco" class="button"><img class="inside" src="img/icosaedron.png"><span>ICOSAEDRO</span></button></li>
           <li><button id="addRing" class="button"><img class="inside" src="img/ring.png"><span>ANILLO</span></button></li>
@@ -120,7 +110,7 @@
           <li><button id="azulC" class="button" style="background-color: deepskyblue; border-radius: 100%; width:60px;"><span>Azúl claro</span></button></li>
           <li><button id="azulO" class="button" style="background-color: dodgerblue; border-radius: 100%; width:60px;"><span>Azúl oscuro</span></button></li>
           <li><button id="indigo" class="button" style="background-color: indigo; border-radius: 100%; width:60px;"><span>Morado</span></button></li>
-          <li><button id="purpura" class="button" style="background-color: purple; border-radius: 100%; width:60px;"><span>Purpura</span></button></li>
+          <li><button id="purpura" class="button" style="background-color: purple; border-radius: 100%; width:60px;"><span>Púrpura</span></button></li>
           <li><button id="violeta" class="button" style="background-color: mediumpurple; border-radius: 100%; width:60px;"><span>Violeta</span></button></li>
           <li><button id="marron" class="button" style="background-color: saddlebrown; border-radius: 100%; width:60px;"><span>Marrón</span></button></li>
           <li><button id="blanco" class="button" style="background-color: snow; border-radius: 100%; width:60px;"><span>Blanco</span></button></li>

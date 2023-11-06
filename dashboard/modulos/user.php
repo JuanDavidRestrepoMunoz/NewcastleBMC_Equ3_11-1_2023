@@ -153,7 +153,7 @@ if (isset($_SESSION['corr'])) {
                             </div>
 
                             <div class="field_image">
-                                <label>Seleccionar imagen</label>
+                                <label>Seleccionar imágen</label>
                                 <input type="file" name="image">
                             </div>
 

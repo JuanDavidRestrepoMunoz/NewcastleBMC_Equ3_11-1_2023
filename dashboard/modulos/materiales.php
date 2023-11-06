@@ -36,11 +36,49 @@ if (isset($_POST['btn_mat'])){
 }
 ?>
 
+<style>
+  .login {
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
 
+  h1{
+
+    text-align: center;
+    margin-bottom: 20px;
+    margin-left: 15%;
+  }
+
+  .form-control {
+    margin-bottom: 10px;
+  }
+
+  .form-label {
+    font-weight: bold;
+  }
+
+  .btn-primary {
+        background-color: #9b1b9c;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+  #premat-alert, #largo-alert, #ancho-alert {
+    display: none;
+  }
+
+</style>
 
 <center>
-<h1>Creación materiales</h1>
 <div class="row login">
+    <h1>Creación de materiales</h1>
             <div class="col-md-12">
                 <form action="../documentation/template.php?mod=materiales" method="post" onsubmit="return validarPrecio();" enctype="multipart/form-data">
                     <div class="mb-3">
