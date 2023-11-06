@@ -176,46 +176,51 @@
           <i class='bx bx-plus arrow'></i>
         </div>
         <table class="sub-menu" style="width: 80%">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Materiales</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
+          <thead class="thead-dark">
+            <tr>
+                <th scope="col">Materiales</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
 
-                    include("./../conexion.php");
-                    
-                    $dato = @$_SESSION['id_us'];
-                    
-                    $query = "SELECT * FROM materiales WHERE id_us LIKE ?";
-                    $stmt = mysqli_prepare($conexion, $query);
-                    
-                    if ($stmt) {
-                        mysqli_stmt_bind_param($stmt, "s", $dato);
-                        mysqli_stmt_execute($stmt);
-                        $result = mysqli_stmt_get_result($stmt);
-                    
-                        if ($result && mysqli_num_rows($result) === 0) {
-                            echo "No tienes ningún proyecto creado";
-                        } else {
-                            while ($fila = mysqli_fetch_assoc($result)) {
-                                // Procesa los resultados aquí
-                                $_SESSION["nom_material"] = $fila["nombre"];
-                                ?>
-                                    <tr>
-                                      <td><button id="mat" class="button"><span><span id="imat" style="display: none;"><?php echo "data:image/png;base64,{$fila['textura']}"?></span><?php echo $fila['nombre']?><?php $_SESSION['textura']=$fila['textura']; echo '<img src="data:' . $fila['textura'] . ';base64,' . $fila['textura'] . '" id="imagenElement" alt="Imagen Base64" height="50" width="50">'; ?></span></button></td>
-                                    </tr>
-                                <?php
-                            }
-                        }
-                    } else {
-                        echo "Error en la preparación de la consulta: " . mysqli_error($conexion);
+              include("./../conexion.php");
+              
+              $dato = @$_SESSION['id_us'];
+              
+              $query = "SELECT * FROM materiales WHERE id_us LIKE ?";
+              $stmt = mysqli_prepare($conexion, $query);
+              
+              if ($stmt) {
+                  mysqli_stmt_bind_param($stmt, "s", $dato);
+                  mysqli_stmt_execute($stmt);
+                  $result = mysqli_stmt_get_result($stmt);
+              
+                  if ($result && mysqli_num_rows($result) === 0) {
+                      echo "No tienes ningún material creado";
+                  } else {
+                    while ($fila = mysqli_fetch_assoc($result)) {
+                      // Procesa los resultados aquí
+                      $_SESSION["nom_material"] = $fila["nombre"];
+                      ?>
+                        <tr>
+                          <td>
+                            <button class="button butt" data-textura="<?php echo "data:image/png;base64,{$fila['textura']}"; ?>">
+                              <?php echo $fila['nombre'] ?>
+                              <img src="data:<?php echo $fila['textura']; ?>;base64,<?php echo $fila['textura']; ?>" alt="Imagen Base64" height="50" width="50">
+                            </button>
+                          </td>
+                        </tr>
+                      <?php
                     }
-                    // Cierra la declaración preparada
-                    mysqli_stmt_close($stmt);
-                ?>
-            </tbody>
+                  }
+              } else {
+                  echo "Error en la preparación de la consulta: " . mysqli_error($conexion);
+              }
+              // Cierra la declaración preparada
+              mysqli_stmt_close($stmt);
+            ?>
+          </tbody>
         </table>
       </li>
       <li class="finish">

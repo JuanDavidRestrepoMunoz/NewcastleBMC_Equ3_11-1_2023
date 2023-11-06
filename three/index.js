@@ -521,9 +521,9 @@ function init(){
             }
 
             const colores = [document.getElementById('rojo'), document.getElementById('amarillo'), document.getElementById('coral'), document.getElementById('naranja'), document.getElementById('verdeC'), document.getElementById('verdeO'), document.getElementById('azulC'), document.getElementById('azulO'), document.getElementById('indigo'), document.getElementById('purpura'), document.getElementById('violeta'), document.getElementById('marron'), document.getElementById('blanco'), document.getElementById('gris'), document.getElementById('negro')];
-            const materialP = [document.getElementById('madera_balso'), document.getElementById('madera_mdf'), document.getElementById('madera_triplex'), document.getElementById('carton_paja'), document.getElementById('carton_industrial'), document.getElementById('carton_durex'), document.getElementById('carton_duplex'), document.getElementById('carton_canson'), document.getElementById('papel_opalina'), document.getElementById('papel_arana'), document.getElementById('papel_nube'), document.getElementById('mat')];
-            const imat = document.getElementById('imat');
-            const imagenUsuario = imat.textContent;
+            const materialP = [document.getElementById('madera_balso'), document.getElementById('madera_mdf'), document.getElementById('madera_triplex'), document.getElementById('carton_paja'), document.getElementById('carton_industrial'), document.getElementById('carton_durex'), document.getElementById('carton_duplex'), document.getElementById('carton_canson'), document.getElementById('papel_opalina'), document.getElementById('papel_arana'), document.getElementById('papel_nube')];
+            // const imat = document.getElementById('imat');
+            // const imagenUsuario = imat.textContent;
             // const imagenElement = document.getElementById('imagenElement');
             // imagenElement.src = imagenUsuario;
             
@@ -634,10 +634,20 @@ function init(){
             materialP[10].addEventListener('click', ()=>{
                 cambiarTextura('./texturas/papel_nube.jpg');
             })
-            materialP[11].addEventListener('click', ()=>{
-                cambiarTextura(imagenUsuario);
-                console.log(imagenUsuario);
-            })
+            // materialP[11].addEventListener('click', ()=>{
+            //     cambiarTextura(imagenUsuario);
+            //     console.log(imagenUsuario);
+            // })
+            const buttons = document.querySelectorAll('.butt');
+
+            buttons.forEach((button, index) => {
+                button.addEventListener('click', () => {
+                    const imagenUsuario = button.getAttribute('data-textura');
+                    cambiarTextura(imagenUsuario);
+                    console.log(imagenUsuario);
+                });
+            });
+
         }
     });
 
