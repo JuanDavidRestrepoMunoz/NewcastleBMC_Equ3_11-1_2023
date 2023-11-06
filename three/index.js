@@ -703,10 +703,22 @@ function redimensionar(){
 
 // Localizador por coordenadas
 
-function onMouseMove ( event ){
-    mouse.x = (event.clientX / window.innerWidth - .114) * 2 - 1;
-    mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+function onMouseMove(event) {
+    // Obtiene el tamaño actual de la ventana
+    const windowWidth = window.innerWidth + 390;
+    const windowHeight = window.innerHeight;
+
+    // Actualiza los valores normalizados de mouse.x y mouse.y
+    mouse.x = (event.clientX / windowWidth) * 2 - 1;
+    mouse.y = - (event.clientY / windowHeight) * 2 + 1;
 }
+
+// Suscríbete al evento 'resize' para actualizar los valores normalizados cuando cambie el tamaño de la ventana
+window.addEventListener('resize', function (event) {
+    // Llama a la función onMouseMove con el evento actual (simulando un movimiento del mouse)
+    onMouseMove({ clientX: event.clientX, clientY: event.clientY });
+});
+
 
 const botonFin = document.getElementById('fin');
 const botonCancelar = document.getElementById('cancelar');
