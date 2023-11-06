@@ -644,7 +644,6 @@ function init(){
                 button.addEventListener('click', () => {
                     const imagenUsuario = button.getAttribute('data-textura');
                     cambiarTextura(imagenUsuario);
-                    console.log(imagenUsuario);
                 });
             });
 
