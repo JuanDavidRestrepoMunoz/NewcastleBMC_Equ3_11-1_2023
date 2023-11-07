@@ -47,34 +47,21 @@ if (isset($_GET['id_proyecto'])) {
 <!-- -------------------------------------------------- CSS -------------------------------------------------- -->
 
 <style>
-    .container_modal {
-        display: none;
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        top: 0; left: 0;
-        background-color: rgba(144, 148, 150, 0.8);
+
+    .container_modal{
+        width: 25vw;
+        opacity: 0;
+        margin: 15px;
+        padding: 15px;
+    }
+
+    .container_modal form{
+        display: flex;
     }
 
     #btn_modal:checked ~ .container_modal{
-        display: flex;
-    }
-
-    .container{
-        background-color: rgb(188, 176, 194);
-        position: fixed;
-        width: 60vw;
-        margin: 100px 300px;
-        padding: 10px 15px;
-        border-radius: 8px;
-        z-index: 100;
-    }
-
-    .container .contenido{
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        padding: 8px;
+        transition: .5s ease;
+        opacity: 1;
     }
 
     #btn_modal{
@@ -88,9 +75,9 @@ if (isset($_GET['id_proyecto'])) {
 
 <div class="cajaInicio">
 
-    <div class="botonInicio">
+    <div class="botonInicio" id="botonCrear">
         <button id="nuevoProyecto">
-            <span><strong>Crear nuevo proyecto</strong></span>
+            <span><strong>Crear nuevo</strong></span>
         </button>
     </div>
 
@@ -165,37 +152,22 @@ if (isset($_GET['id_proyecto'])) {
 
 
 <input type="checkbox" id="btn_modal">
-<div class="container_modal">
+<div class="container_modal" id="contenedor">
     <form action="./template.php?mod=inicio" method="post">
-        <div class="container" id="container">
-            <header>
-                <h3>Crear Nuevo Proyecto</h3>
-            </header>
-                <input type="text" class="form-control" name="nom_proyecto" id="nom_proyecto" placeholder="Nombre del proyecto" required>
-            <div class="contenido">
-                <button id="cancelar">
-                    <span><strong>Cancelar</strong></span>
-                </button>
-                <button id="btn_crear" name="btn_crear">
-                    <span><strong>Crear</strong></span>
-                </button>
-            </div>
-        </div>
+        <input type="text" class="form-control" name="nom_proyecto" id="nom_proyecto" placeholder="Nombre del proyecto" required>
+        <button id="btn_crear" name="btn_crear">
+            <span><strong>Crear</strong></span>
+        </button>
     </form>
 </div>
 
 <!-- ----------------------------------------------- JavaScript ----------------------------------------------------- -->
 
 <script>
-    var checkbox = document.getElementById('btn_modal');
-    var activarBoton = document.getElementById('nuevoProyecto');
-    var desactivarBoton = document.getElementById('cancelar');
+    const checkbox = document.getElementById('btn_modal');
+    const activarBoton = document.getElementById('nuevoProyecto');
 
     activarBoton.addEventListener('click', function() {
         checkbox.checked = true;
-    });
-  
-    desactivarBoton.addEventListener('click', function() {
-        checkbox.checked = false;
     });
 </script>
