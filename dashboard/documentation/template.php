@@ -270,8 +270,8 @@ session_start();
                 </a>
             </li>
             <li class="button-container">
-                <a href="https://www.facebook.com/profile.php?id=100092662942856&mibextid=ZbWKwL" id="facebook" class="btn btn-social btn-outline btn-facebook btn-round sharrre"><i class="fa fa-facebook-square"></i> · 426</a>
-                <a href="https://twitter.com/NewcastleBMC" id="twitter" class="btn btn-social btn-outline btn-twitter btn-round sharrre"><i class="fa fa-twitter"></i> · 256</a>
+                <a href="https://www.facebook.com/profile.php?id=100092662942856&mibextid=ZbWKwL" id="facebook" class="btn btn-social btn-outline btn-facebook btn-round sharrre"><i class="fa fa-facebook-square"></i></a>
+                <a href="https://twitter.com/NewcastleBMC" id="twitter" class="btn btn-social btn-outline btn-twitter btn-round sharrre"><i class="fa fa-twitter"></i></a>
             </li>
         </ul>
     </div>
