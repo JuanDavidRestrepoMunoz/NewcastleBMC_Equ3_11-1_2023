@@ -51,6 +51,23 @@ if (isset($_POST["btn_modificar_material"])) {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style/estilo.css">
 </head>
+<style>
+        /* Estilos personalizados para tu página */
+        .container {
+            max-width: 80%;
+            margin: 0 auto;
+        }
+
+        .btn {
+            /* Estilos para botones */
+            background-color: #9b1b9c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+</style>
 <body>
     <div class="container">
         <h1>Materiales Registrados</h1>

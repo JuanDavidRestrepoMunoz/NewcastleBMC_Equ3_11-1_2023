@@ -114,17 +114,23 @@ if (isset($_POST['calcularPresupuesto'])) {
             <select name="proyecto" id="proyecto">
                 <!-- Genera opciones para seleccionar proyectos -->
                 <?php
-                $queryProyectos = "SELECT id_proyecto, nom FROM proyecto";
-                $resultadoProyectos = mysqli_query($conexion, $queryProyectos);
                 
-                if ($resultadoProyectos) {
-                    while ($filaProyecto = mysqli_fetch_assoc($resultadoProyectos)) {
-                        echo '<option value="' . $filaProyecto['id_proyecto'] . '">' . $filaProyecto['nom'] . '</option>';
+                    $usuario_id = $_SESSION['id_us']; 
+
+                    $queryProyectos = "SELECT id_proyecto, nom FROM proyecto WHERE id_us = ?";
+                    $stmtProyectos = mysqli_prepare($conexion, $queryProyectos);
+                    mysqli_stmt_bind_param($stmtProyectos, "i", $usuario_id);
+                    mysqli_stmt_execute($stmtProyectos);
+                    $resultadoProyectos = mysqli_stmt_get_result($stmtProyectos);
+
+                    if ($resultadoProyectos) {
+                        while ($filaProyecto = mysqli_fetch_assoc($resultadoProyectos)) {
+                            echo '<option value="' . $filaProyecto['id_proyecto'] . '">' . $filaProyecto['nom'] . '</option>';
+                        }
+                    } else {
+                        echo 'Error en la consulta SQL: ' . mysqli_error($conexion);
                     }
-                } else {
-                    echo 'Error en la consulta SQL: ' . mysqli_error($conexion);
-                }
-                                
+              
                 ?>
             </select>
             <div id="materialInputs">
@@ -141,7 +147,7 @@ if (isset($_POST['calcularPresupuesto'])) {
                         }
                         ?>
                     </select>
-                    <label for="factor">Factor de multiplicación:</label>
+                    <label for="factor">Cantidad que necesita:</label>
                     <input type="number" name="factor[]" value="1">
                 </div>
             </div>
