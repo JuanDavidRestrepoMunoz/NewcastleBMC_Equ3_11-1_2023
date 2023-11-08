@@ -4,15 +4,16 @@
   include("./../conexion.php");
                     
   $dato = @$_SESSION['id_proyecto'];
-  
-  $query = "SELECT * FROM proyecto WHERE id_proyecto LIKE ?";
-  $stmt = mysqli_prepare($conexion, $query);
-  
-  if ($stmt) {
+
+  if($dato){
+      $query = "SELECT * FROM proyecto WHERE id_proyecto LIKE ?";
+    $stmt = mysqli_prepare($conexion, $query);
+    
+    if ($stmt) {
       mysqli_stmt_bind_param($stmt, "s", $dato);
       mysqli_stmt_execute($stmt);
       $result = mysqli_stmt_get_result($stmt);
-  
+      
       if ($result && mysqli_num_rows($result) === 0) {
           echo "No tienes ningún proyecto creado";
       } else {
@@ -25,8 +26,11 @@
     } else {
         echo "Error en la preparación de la consulta: " . mysqli_error($conexion);
     }
-    // Cierra la declaración preparada
-    mysqli_stmt_close($stmt);
+      // Cierra la declaración preparada
+      mysqli_stmt_close($stmt);
+  }
+  
+
 ?>
 
 <!DOCTYPE html>
@@ -90,7 +94,7 @@
       </style>
 </head>
 <body>
-  <span id="dir" style="display=none;"><?php echo $_SESSION['obj']?></span>
+  <span id="dir" style="display: none;"><?php echo $_SESSION['obj']?></span>
   <div class="sidebar">
     <ul class="nav-links">
       <li id="liO">
