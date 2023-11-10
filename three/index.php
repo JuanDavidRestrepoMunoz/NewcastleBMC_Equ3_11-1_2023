@@ -31,13 +31,9 @@
         <label style="text-align: center;" for="atras"><?php echo $_SESSION['apo'] ?></label>
       </div>
       <div class="navbar">
-        <button>Archivo</button>
         <button id="objetos">Formas</button>
         <button id="colores">Color</button>
         <button id="materiales">Materiales</button>
-        <button>Diseño</button>
-        <button>Vista 3D</button>
-        <button>Compartir</button>
       </div>
       <div class="atras">
         <button id="atras"><img src="../img/icono.png" id="atras" alt="NCBMC" style="width: 60px; height: 30px;"></button>
