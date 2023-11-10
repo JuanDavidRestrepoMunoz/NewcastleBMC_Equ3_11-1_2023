@@ -40,13 +40,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="title">Programa del ThreeJS</title>
     <script type="importmap">
-        {
-          "imports": {
-            "three": "https://unpkg.com/three@0.156.1/build/three.module.js",
-            "three/addons/": "https://unpkg.com/three@0.156.1/examples/jsm/"
-          }
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.156.1/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.156.1/examples/jsm/"
         }
-      </script>
+      }
+    </script>
       <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
       <link rel="stylesheet" href="./style/style2.css">
       <style>

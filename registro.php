@@ -37,19 +37,19 @@
                   <div class="row login">
                       <div class="col-6">
                           <label class="title">Primer nombre*</label>
-                          <input type="text" class="form-control for" placeholder="Primer nombre" name="nom1" required>
+                          <input type="text" class="form-control for" placeholder="Primer nombre" name="nom1" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+" required>
                       </div>
                       <div class="col-6">
                           <label class="title">Segundo nombre</label>
-                          <input type="text" class="form-control for" placeholder="Segundo nombre" name="nom2">
+                          <input type="text" class="form-control for" placeholder="Segundo nombre" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+" name="nom2">
                       </div>
                       <div class="col-6">
                           <label class="title">Primer apellido*</label>
-                          <input type="text" class="form-control for" placeholder="Primer apellido" name="ape1" required>
+                          <input type="text" class="form-control for" placeholder="Primer apellido" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+" name="ape1" required>
                       </div>
                       <div class="col-6">
                           <label class="title">Segundo apellido</label>
-                          <input type="text" class="form-control for" placeholder="Segundo apellido" name="ape2">
+                          <input type="text" class="form-control for" placeholder="Segundo apellido" pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+" name="ape2">
                       </div>
                       <br><br><br><br>
                       <div class="col-12">
