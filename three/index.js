@@ -714,7 +714,7 @@ function redimensionar(){
 
 function onMouseMove(event) {
     // Obtiene el tamaño actual de la ventana
-    const windowWidth = window.innerWidth + 390;
+    const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
 
     // Actualiza los valores normalizados de mouse.x y mouse.y

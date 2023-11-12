@@ -129,6 +129,7 @@ if (isset($_POST["btn_modificar_material"])) {
                             <button type="submit" name="btn_modificar_material" style="background-color: transparent; border: 0px;">
                                 <img src="../../img/editar-imagen.png" width="40px" height="40px">
                             </button>
+                            <label for="id_actualizar">Modificar</label>
                         </form>
                         </td>
                         
