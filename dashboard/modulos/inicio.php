@@ -21,20 +21,36 @@ if (isset($_POST['btn_crear'])) {
 }
 
 if (isset($_POST['btn_eliminar'])) {
-    $id_eliminar = @$_POST['nom_eliminar'];
-    
+    // Código para mostrar la confirmación de eliminación
+    $confirmarEliminar = '<script>
+        var confirmar = confirm("¿Estás seguro de que deseas eliminar este proyecto?");
+        if (confirmar) {
+            // Si el usuario confirma la eliminación, redirige al mismo script para eliminar el proyecto
+            window.location = "./template.php?mod=inicio&confirmar_eliminar=1&id_proyecto=' . $_POST['nom_eliminar'] . '";
+        }
+    </script>';
+
+    echo $confirmarEliminar;
+}
+
+if (isset($_GET['confirmar_eliminar']) && $_GET['confirmar_eliminar'] == 1) {
+    // Código para eliminar el proyecto si el usuario confirma
+    $id_eliminar = @$_GET['id_proyecto'];
+
     // Evita la inyección SQL utilizando una consulta preparada
     $query = "DELETE FROM proyecto WHERE id_proyecto = ?";
     $stmt = mysqli_prepare($conexion, $query);
     mysqli_stmt_bind_param($stmt, "i", $id_eliminar);
-    
+
     if (mysqli_stmt_execute($stmt)) {
-        echo "El material ha sido borrado con éxito";
+        echo "<script>alert('El proyecto ha sido eliminado con éxito');</script>";
     } else {
-        echo "Error al eliminar el material";
+        echo "<script>alert('Error al eliminar el proyecto');</script>";
     }
     mysqli_stmt_close($stmt);
+    echo "<script>window.location='./template.php?mod=inicio';</script>";
 }
+
 
 if (isset($_GET['id_proyecto'])) {
     if (isset($_POST['btn_abrir'])){
