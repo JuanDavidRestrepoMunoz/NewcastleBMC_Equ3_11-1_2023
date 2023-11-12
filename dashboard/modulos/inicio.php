@@ -140,6 +140,8 @@ if (isset($_GET['id_proyecto'])) {
                                         <button type="submit" id="btn_abrir" name="btn_abrir" style="background-color: transparent; border: 0px;">
                                             <img src="../../img/carpeta.png" width="40px" height="40px">
                                         </button>
+                                        <br>
+                                        <label for="id_actualizar">Abrir</label>
                                     </form>
                                     </td>
                                     <td>
@@ -148,6 +150,8 @@ if (isset($_GET['id_proyecto'])) {
                                         <button type="submit" name="btn_eliminar" style="background-color: transparent; border: 0px;">
                                             <img src="../../img/papelera-de-reciclaje.png" width="40px" height="40px">
                                         </button>
+                                        <br>
+                                        <label for="id_actualizar">Eliminar</label>
                                     </form>
                                     </td>
                                     </tr>
