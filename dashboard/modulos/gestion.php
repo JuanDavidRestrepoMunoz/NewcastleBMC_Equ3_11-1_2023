@@ -1,6 +1,8 @@
 <center>
 
 <?php
+include "../../conexion.php";
+
 function obtenerNombreTipoMaterial($id_tipo) {
     $tipos = array(
         6 => "Cartón",
@@ -14,23 +16,37 @@ function obtenerNombreTipoMaterial($id_tipo) {
 }
 
 
-include "../../conexion.php";
-
 if (isset($_POST['btn_eliminar'])) {
-    $id_eliminar = @$_POST['nom_eliminar'];
-    
+    // Código para mostrar la confirmación de eliminación
+    $confirmarEliminar = '<script>
+        var confirmar = confirm("¿Estás seguro de que deseas eliminar este material?");
+        if (confirmar) {
+
+            window.location = "./template.php?mod=gestion&confirmar_eliminar=1&id_material=' . $_POST['nom_eliminar'] . '";
+        }
+    </script>';
+
+    echo $confirmarEliminar;
+}
+
+if (isset($_GET['confirmar_eliminar']) && $_GET['confirmar_eliminar'] == 1) {
+    // Código para eliminar el proyecto si el usuario confirma
+    $id_eliminar = @$_GET['id_material'];
+
     // Evita la inyección SQL utilizando una consulta preparada
     $query = "DELETE FROM materiales WHERE id_material = ?";
     $stmt = mysqli_prepare($conexion, $query);
     mysqli_stmt_bind_param($stmt, "i", $id_eliminar);
-    
+
     if (mysqli_stmt_execute($stmt)) {
-        echo "El material ha sido borrado con éxito";
+        echo "<script>alert('El Material ha sido eliminado con éxito');</script>";
     } else {
-        echo "Error al eliminar el material";
+        echo "<script>alert('Error al eliminar el material');</script>";
     }
     mysqli_stmt_close($stmt);
+    echo "<script>window.location='./template.php?mod=gestion';</script>";
 }
+
 if (isset($_POST["btn_modificar_material"])) {
     $id_material = $fila['id_material']; // Obtener el ID del material desde tu consulta o donde corresponda
     echo "<script>window.location = './template.php?mod=editar&id_material=" . $id_material . "';</script>";
@@ -129,6 +145,7 @@ if (isset($_POST["btn_modificar_material"])) {
                             <button type="submit" name="btn_modificar_material" style="background-color: transparent; border: 0px;">
                                 <img src="../../img/editar-imagen.png" width="40px" height="40px">
                             </button>
+                            <br>
                             <label for="id_actualizar">Modificar</label>
                         </form>
                         </td>
@@ -139,6 +156,8 @@ if (isset($_POST["btn_modificar_material"])) {
                             <button type="submit" name="btn_eliminar" style="background-color: transparent; border: 0px;">
                                 <img src="../../img/papelera-de-reciclaje.png" width="40px" height="40px">
                             </button>
+                            <br>
+                            <label for="id_actualizar">Eliminar</label>
                         </form>
                         </td>
                     </tr>
