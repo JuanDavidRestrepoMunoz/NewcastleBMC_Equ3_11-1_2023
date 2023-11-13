@@ -8,7 +8,7 @@ if (isset($_SESSION['corr'])) {
             var confirmar = confirm("¿Estás seguro de que deseas eliminar tu perfil?");
             if (confirmar) {
                 // Si el usuario confirma la eliminación, redirige al mismo script para eliminar el perfil
-                window.location = "tu_pagina_actual.php?confirmar_eliminar=1";
+                window.location = "./template.php?mod=user&confirmar_eliminar=1";
             }
         </script>';
     }
