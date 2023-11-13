@@ -1,6 +1,8 @@
 <?php
 include "../../conexion.php";
 
+//Este codigo conecta el boton crear con la BD y asi registrando y creando el proyecto.
+
 if (isset($_POST['btn_crear'])) {
     $nom = $_POST['nom_proyecto'];
     $id_us = $_SESSION['id_us'];
@@ -12,6 +14,7 @@ if (isset($_POST['btn_crear'])) {
     if (file_put_contents($archivo_destino, $json_data)) {
         $registrar = mysqli_query($conexion, "INSERT INTO `proyecto` (`id_proyecto`, `nom`, `id_us`, `costeo`, `obj`) VALUES ('', '$nom', '$id_us', '0', '$nombre_aleatorio')") or die (mysqli_error($conexion));
         if($registrar){
+            // Al clickear el boton si todo sale bien te enviara al apartado 3D 
             echo "<script>window.location='../../three/index.php';</script>";
         };
     } else {
