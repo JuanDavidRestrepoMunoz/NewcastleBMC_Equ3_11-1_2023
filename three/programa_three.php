@@ -1,6 +1,7 @@
 <?php
   session_start();
 
+  // Inicio: aquí obtenemos la información del usuario para qeu se vean reflejados los materiales agregados por el usuario
   include("./../conexion.php");
                     
   $dato = @$_SESSION['id_proyecto'];
@@ -30,7 +31,7 @@
       mysqli_stmt_close($stmt);
   }
   
-
+  // Final
 ?>
 
 <!DOCTYPE html>
@@ -39,6 +40,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="title">Programa del ThreeJS</title>
+
+    <!-- Inicio: aquí importamos la librerías del ThreeJS hacia las carpetas de nuestra página -->
     <script type="importmap">
       {
         "imports": {
@@ -47,6 +50,7 @@
         }
       }
     </script>
+    <!-- Final -->
       <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
       <link rel="stylesheet" href="./style/style2.css">
       <style>
@@ -171,6 +175,10 @@
           <li><button id="papel_nube" class="button"><span style="display:flex;"><img src="texturas/papel_nube.jpg" height="50" width="50"><strong>Papel Nube</strong></span></button></li>
         </ul>
       </li>
+
+      <!-- Inicio: aquí tenemos la lista de los materiales agregados por el usuario, donde llamamos el nombre del material y su imágen almacenada
+      en base64, y finalmente transformar el texto de base64 en una imágen. Además de eso, colocar un span oculto para poder obtener el base64
+      del material y posteriormente recuperar en el index.js para poder aplicarla a los objetos -->
       <li id="liMU">
         <div class="iocn-link">
           <button class="showMU">
@@ -227,6 +235,9 @@
           </tbody>
         </table>
       </li>
+
+      <!-- Final -->
+
       <li class="finish">
         <button class="button" id="fin">
           <span class="link_name">Terminé</span>
@@ -239,6 +250,13 @@
       </li>
     </ul>
   </div>
+
+  <!-- Inicio: aquí generamos el recuadro donde aparecerá nuestro proyecto en pequeño y mostrar el precio aproximado que previamente definimos en
+  costeo -->
+
+  <!-- para que pueda aparecer y desaparecer con un botón, utilizamos un checkbox, el cual se activará al precionar el botón "Terminé" y se desactivará
+  al darle al botón "cerrar" -->
+
   <input type="checkbox" id="btn_modal">
   <div class="container_modal">
     <div class="container" id="container">
@@ -254,7 +272,6 @@
               <h2>Materiales:</h2>
             </header>
             <div class="materiales">
-              <p>Materiales</p>
               <p>Precio aproximado: $<?php echo $_SESSION['pre']?></p>
             </div>
           </div>
@@ -267,7 +284,13 @@
       </div>
     </div>
   </div>
+  <!-- Final -->
+
+  <!-- Inicio: aquí es la parte más importante, ya que en este script importamos todo el programa del entorno 3D -->
   <script type="module" src="./index.js"></script>
+  <!-- Final -->
+
+  <!-- Inicio: aquí configuramos para que se desplieguen las listas al precionar el botón correspondiente -->
   <script>
     let arrow = document.querySelectorAll('.arrow');
     let button = document.querySelectorAll('.show');
@@ -310,6 +333,8 @@
       });
     }
   </script>
+  <!-- Final -->
+  
   <script>
     var checkbox = document.getElementById('btn_modal');
     var activarBoton = document.getElementById('fin');

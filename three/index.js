@@ -9,12 +9,16 @@ import { GLTFExporter } from './node_modules/three/examples/jsm/exporters/GLTFEx
 import {STLExporter} from './node_modules/three/examples/jsm/exporters/STLExporter.js';
 import {OBJExporter} from './node_modules/three/examples/jsm/exporters/OBJExporter.js';
 
+// Final: aquí se importan todos los archivos del ThreeJS necesarios para el funcionamiento del programa
+
 // Constantes y variables globales
 
 let scene, camera, renderer, grid, geometry, textura, material, controls, register = [], dControls, reader, DELETE_KEY = 46, BACKSPACE_KEY = 8, exporterG, sceneData;
 var mouse, raycaster, selectedObject = null, selectedFile = null, textureInput;
 
 function init(){
+
+    // Inicio: aquí se crean la escena, la cámara y se configura la cámara
 
     // Creación y ajuste de cámara y escenario
     scene = new THREE.Scene();
@@ -28,6 +32,8 @@ function init(){
     camera.rotation.x = 0;
 
     // Creación del renderizador
+
+    // Aquí se crea y se configura el renderizador, importante para que todos los objetos en la escena se rendericen en la pantalla
     
     renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -35,21 +41,29 @@ function init(){
 
     // Creación del control de órbita y control de transformación
 
+    // Se crea y se configuran los controles de orbita de la cámara, que son el mover la cámara, transladarla y hacer zoom
+
     let orbit = new OrbitControls(camera, renderer.domElement);
     orbit.enabled = true;
     controls = new TransformControls(camera, renderer.domElement);
 
     // Variables para la localización con coordenadas
 
+    // Aquí se crea y se configura el trazado de rayas para poder encontrar los objetos y seleccionarlo
+
     raycaster = new THREE.Raycaster();
     mouse = new THREE.Vector2();
 
     // Creación de la cuadrícula
 
+    // Aquí se crea y se configura la cuadrícula
+
     grid = new THREE.GridHelper(100, 100);
     scene.add(grid);
 
     // Creación y ajuste de la luz
+
+    // Aquí se agrega la luz y se configura para que se puedan ver los objetos
 
     let light = new THREE.DirectionalLight(0xffffff, 1, 100);
     light.position.set(-1, 2, 2);
@@ -57,6 +71,8 @@ function init(){
     scene.add(light);
 
     // Cargar texturas
+
+    // Aquí se cargan las texturas de fotos que agreguen los usuarios
 
     textureInput = document.getElementById('textureInput');
 
@@ -71,7 +87,14 @@ function init(){
             reader.readAsDataURL(selectedFile);
         }
     });
+
+    // Final
     
+    // Inicio: aquí se configuran las creaciones de los objetos con la escucha de un clic al botón correspondiente. Para crear un objeto se
+    // necesita la geometría del objeto, su color o textura y agregarlo a la escena, pero necesitamos un paso extra que agrega agregar el objeto
+    // a una lista de registro
+
+
     // Botón para agregar cubos
 
     let addCube = document.getElementById('addCube')
@@ -437,10 +460,16 @@ function init(){
         autoguardarEscena();
     })
 
+    // Final
+
     // Eventos para la movilidad y transformación de los objetos seleccionados (ABSOLUTAMENTE NO TOCAR)
+
+    // Inicio: aquí se configuran las acciones que se pueden hacer con un objeto al que se ha seleccionado
 
     window.addEventListener('click', ()=>{
         if (selectedObject){
+
+            // Cuando se toca un ludar a parte del objeto, se deselecciona
             console.log('Soltando Objeto');
             controls.detach(selectedObject);
             dControls.deactivate();
@@ -450,13 +479,18 @@ function init(){
             return;
         }
         
+        // se trazan los rayos desde el mouse para encontrar el objeto
+
         raycaster.setFromCamera(mouse, camera);
         const intersects = raycaster.intersectObjects(register);
 
+        // para esta parte era necesario el registro de los objetos, ya que se identifica el objeto específico entre los demás
         if(intersects.length > 0 ) {
             selectedObject = intersects[0].object;
             console.log('Seleccionado');
             console.log(register);
+
+            // para evitar repeticiones, se crea esta función con la cual se determina la funciones que se pueden hacer con los objetos
 
             function configureControls(mode, object) {
                 controls.setMode(mode, object);
@@ -470,23 +504,28 @@ function init(){
 
             document.addEventListener('keydown', (event)=>{
                 if(selectedObject==null){
+                    // aquí es un control de eventos, por si se toca alguna tecla de funciones sin un objeto seleccionado
                     console.log('No ha seleccionado ningún objeto');
                 }else if(event.keyCode === 82){
+                    // con la tecla "r" se rota el objeto
                     configureControls('rotate', selectedObject);
                     dControls.deactivate();
                     dControls.dispose();
                     autoguardarEscena();
                 }else if(event.keyCode === 69 || event.keyCode === 101){
+                    // con la tecla "e" mayúscula o minúscula se escala el tamaño del objeto seleccionado
                     configureControls('scale', selectedObject)
                     dControls.deactivate();
                     dControls.dispose();
                     autoguardarEscena();
                 }else if(event.keyCode === 84){
+                    // con la tecla "t" se translada el objeto seleccionado
                     configureControls('translate', selectedObject)
                     dControls.deactivate();
                     dControls.dispose();
                     autoguardarEscena();
                 }else if(event.keyCode === DELETE_KEY || event.keyCode === BACKSPACE_KEY){
+                    // finalmente, con la tecla "borrar" o "suprimir" se borra el objeto seleccionado
                     register = register.filter((object) => object !== selectedObject);
                     scene.remove(selectedObject);
                     controls.detach(selectedObject);
@@ -497,6 +536,7 @@ function init(){
                 }
             })
 
+            // se configura dragcontrol para poder arrastrar el objeto seleccionado
             dControls = new DragControls([selectedObject], camera, renderer.domElement);
             dControls.addEventListener('dragstart', ()=>{
                 orbit.enabled = false;
@@ -506,6 +546,7 @@ function init(){
                 orbit.enabled = true;
             })
 
+            // se guardan las variables de los tamaños del objeto seleccionado
             if (selectedObject) {
                 // Obtén la escala del objeto
                 const scale = selectedObject.scale;
@@ -521,13 +562,9 @@ function init(){
             }
 
             const colores = [document.getElementById('rojo'), document.getElementById('amarillo'), document.getElementById('coral'), document.getElementById('naranja'), document.getElementById('verdeC'), document.getElementById('verdeO'), document.getElementById('azulC'), document.getElementById('azulO'), document.getElementById('indigo'), document.getElementById('purpura'), document.getElementById('violeta'), document.getElementById('marron'), document.getElementById('blanco'), document.getElementById('gris'), document.getElementById('negro')];
-            const materialP = [document.getElementById('madera_balso'), document.getElementById('madera_mdf'), document.getElementById('madera_triplex'), document.getElementById('carton_paja'), document.getElementById('carton_industrial'), document.getElementById('carton_durex'), document.getElementById('carton_duplex'), document.getElementById('carton_canson'), document.getElementById('papel_opalina'), document.getElementById('papel_arana'), document.getElementById('papel_nube')];
-            // const imat = document.getElementById('imat');
-            // const imagenUsuario = imat.textContent;
-            // const imagenElement = document.getElementById('imagenElement');
-            // imagenElement.src = imagenUsuario;
-            
+            const materialP = [document.getElementById('madera_balso'), document.getElementById('madera_mdf'), document.getElementById('madera_triplex'), document.getElementById('carton_paja'), document.getElementById('carton_industrial'), document.getElementById('carton_durex'), document.getElementById('carton_duplex'), document.getElementById('carton_canson'), document.getElementById('papel_opalina'), document.getElementById('papel_arana'), document.getElementById('papel_nube')];   
 
+            // aquí se cambia el color del objeto seleccionado con la escucha del clic al botón correspondiente al color
             function cambiarColor(color) {
                 if (selectedObject) {
                     if (selectedObject.material) {
@@ -536,6 +573,8 @@ function init(){
                 }
                 autoguardarEscena();
             }
+
+            // aquí se cambia la textura del objeto seleccionado con la escucha del clic del botón correspondiente a la textura
 
             const textureLoader = new THREE.TextureLoader();
 
@@ -634,10 +673,9 @@ function init(){
             materialP[10].addEventListener('click', ()=>{
                 cambiarTextura('./texturas/papel_nube.jpg');
             })
-            // materialP[11].addEventListener('click', ()=>{
-            //     cambiarTextura(imagenUsuario);
-            //     console.log(imagenUsuario);
-            // })
+
+            // este es una sección especial, ya que se agrega la textura del material agregado por el usuario al objeto seleccionado. Para lograr
+            // esto, se guarda el base64 en un span oculto en el HTML y después se recupera
             const buttons = document.querySelectorAll('.butt');
 
             buttons.forEach((button, index) => {
@@ -650,15 +688,25 @@ function init(){
         }
     });
 
+    // Final
+
+    // Inicio: aquí se guarda el proyecto en un archivo gltf con la escucha del botón del para guardar
     const finish = document.getElementById('save');
     finish.addEventListener('click', ()=>{
         exportar(scene);
     })
 
+    // Final
+
     animate();
 }
 
+// Inicio: funciones especiales del programa
+
 // Identificadores del objeto cubo
+
+// aquí se transparenta el objeto que está por encima del mouse y posteriormente se regresa a su estado normal
+
 function resetMaterial() {
     for (let i=0; i < register.length; i++) {
         if(register[i].material) {
@@ -678,6 +726,8 @@ function hoverObject() {
 
 // Renderizador
 
+// aquí se configura el renderizador en una función a parte para que se puedan percibir los cambios que se hagan en la escena
+
 function animate(){
     hoverObject();
     requestAnimationFrame(animate);
@@ -685,6 +735,8 @@ function animate(){
 }
 
 // Exportador
+
+// aquí se configura el exportador para que se pueda guardar en un archivo gltf el proyecto
 
 function exportar(scene){
     const exporter = new GLTFExporter();
@@ -704,6 +756,8 @@ function exportar(scene){
 
 // Redimensionador de la pantalla
 
+// aquí se configura la cámara y el render para cuando se cambie el tamaño de la pantalla
+
 function redimensionar(){
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
@@ -712,23 +766,25 @@ function redimensionar(){
 
 // Localizador por coordenadas
 
+// aquí se configuran las coordenadas para que el trazado de rayas encuentre al objeto que queremos seleccionar
+
 function onMouseMove(event) {
-    // Obtiene el tamaño actual de la ventana
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
 
-    // Actualiza los valores normalizados de mouse.x y mouse.y
     mouse.x = (event.clientX / windowWidth) * 2 - 1;
     mouse.y = - (event.clientY / windowHeight) * 2 + 1;
 }
 
-// Suscríbete al evento 'resize' para actualizar los valores normalizados cuando cambie el tamaño de la ventana
+// aquí se reconfiguran las coordenadas cuando se cambia el tamaño de la pantalla
+
 window.addEventListener('resize', function (event) {
     // Llama a la función onMouseMove con el evento actual (simulando un movimiento del mouse)
     onMouseMove({ clientX: event.clientX, clientY: event.clientY });
 });
 
 
+// aquí se hace toda la configuración para que se agregue una pequeña imágen en el recuadro de terminado
 const botonFin = document.getElementById('fin');
 const botonCancelar = document.getElementById('cancelar');
 botonFin.addEventListener('click', captureScene);
@@ -762,6 +818,9 @@ function renderAndCapture() {
     imageContainer.appendChild(imageElement);
 }
 
+// aquí se configuran los datos de los objetos guardado en el register para posteriormente ser enviados como un texto JSON a la conexión y ser
+// almacenado en el archivo JSON correspondiente
+
 // Define los datos que deseas enviar
 var data = {
     register
@@ -778,10 +837,14 @@ const autoguardarEscena = () => {
     xhr.send(jsonData);
 }
 
-const intervaloAutoguardado = .3 * 60 * 1000; // 5 minutos en milisegundos
+// se configura el intervalo de timpo para que se autoguarden los cambios (18 segundos)
+
+const intervaloAutoguardado = .3 * 60 * 1000;
 setInterval(autoguardarEscena, intervaloAutoguardado);
 
 window.addEventListener('resize', redimensionar);
 window.addEventListener('mousemove', onMouseMove, false);
+
+// Final
 
 init();

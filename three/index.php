@@ -24,6 +24,9 @@
 </head>
 
 <body>
+
+  <!-- Inicio: aquí se configura el menú de la barra superior, mostrando el perfíl y el botón para regresar a la página principal
+  y los botones para desplegar los menú de formas, colores y materiales -->
   <div class="container">
     <header class="header">
       <div class="perfil">
@@ -39,8 +42,12 @@
         <button id="atras"><img src="../img/icono.png" id="atras" alt="NCBMC" style="width: 60px; height: 30px;"></button>
       </div>
     </header>
+
+    <!-- En este iframe llamamos el segundo archivo en donde se almacena el entorno 3D y las lista de objetos, colores y materiales -->
     <iframe id="THREE" src="./programa_three.php" frameborder="0" scrolling="no"></iframe>
   </div>
+
+  <!-- En este script logramos que con los botones de la barra superior, desplegar la lista correspondiente al botón -->
   <script>
     const objetos = document.getElementById('objetos');
     const colores = document.getElementById('colores');
@@ -69,5 +76,7 @@
       window.location='../dashboard/documentation/template.php';
     });
   </script>
+
+  <!-- final -->
 </body>
 </html>

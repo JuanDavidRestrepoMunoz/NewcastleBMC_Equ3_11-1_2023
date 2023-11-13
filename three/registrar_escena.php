@@ -7,6 +7,9 @@
   header("Access-Control-Allow-Headers: Content-Type");
   
   include("./conexion.php");
+
+  // Inicio: aquí se envían los datos de la escena en JSON, luego se encuentra el archivo en el que serán guardados los datos y se almacenan en
+  // datos tipo JSON
   
   if ($_SERVER["REQUEST_METHOD"] === "POST") {
       // Accede a los datos enviados por Three.js
@@ -33,4 +36,6 @@
   } else{
       echo "<script>alert('adios');</script>";
   }
+
+  // Final
 ?>
